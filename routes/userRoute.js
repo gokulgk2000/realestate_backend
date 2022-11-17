@@ -7,6 +7,7 @@ const { hashValidator } = require("../helpers/Hashing");
 const { JWTtokenGenerator } = require("../helpers/Token");
 const { isAuthenticated } = require("../helpers/SafeRoutes");
 const config = require("../config");
+const RegPropertyModel = require("../models/RegPropertyModel");
 
 
 router.get("/", (req, res) => res.send("User Route"));
@@ -253,5 +254,38 @@ router.post("/register", async (req, res) => {
       });
     }
   });
+  router.post("/propertydetails", async (req, res) => {
+    const { objectId } = req.body;
+    // console.log("objectId" + objectId);
+    RegPropertyModel.findById(objectId, (err, propertydetails) => {
+      if (err) {
+        res.json({
+          msg: "Oops Error occurred!",
+          error: err,
+        });
+      } else {
+        res.json({
+          success: true,
+          msg: propertydetails,
+        });
+        console.log("propertydetails", res)
+      }
+    });
+  });
+  router.get("/properties", async (req, res) => {
+    RegPropertyModel.find({}, null, { limit: 100 }, (err, list) => {
+      if (err) {
+        res.json({
+          msg: err,
+        });
+      } else {
+        res.json({
+          success: true,
+          property: list,
+        });
+      }
+    });
+  });
+
   
   module.exports = router;

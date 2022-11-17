@@ -39,6 +39,7 @@ const create=async() =>{
 
     // app.get('/',(req,res)=> res.send("Welcome to Backend"))
     app.use("/api/user", require("./routes/userRoute"));
+    app.use("/api/property", require("./routes/RegpropertyRoute"));
 
     return app;
 };

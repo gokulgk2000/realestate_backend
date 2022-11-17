@@ -1,40 +1,50 @@
 const mongoose = require("mongoose");
-const regpropertySchema = mongoose.Schema({
-  regUser:{
+const regpropertySchema =mongoose.Schema({
+  regUser: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "userModel",
-  },
-  Title: {
-    type: String,
-  },
-  Area: {
-    type: String,
-  },
-  Seller:{
-    type: String,
-  },
-  Location :{
-    type: String,
-  },
-
-  Layoutname: {
-    type: String,
   },
   Seller: {
     type: String,
   },
-  Landarea: {
+
+  location: {
     type: String,
   },
- 
-  Facing: {
+  layoutName: {
     type: String,
   },
- 
-  Approchroad: {
+  landArea: {
     type: String,
   },
-  Builtarea: {
+  facing: {
+    type: String,
+  },
+  approachRoad: {
+    type: String,
+  },
+  builtArea: {
+    type: String,
+  },
+  bedRoom: {
+    type: String,
+  },
+  floorDetails: {
+    type: String,
+  },
+  status: {
+    type: String,
+  },
+  nearTown: {
+    type: String,
+  },
+  costSq: {
+    type: String,
+  },
+  facilities: {
+    type: String,
+  },
+  askPrice: {
     type: String,
   },
   propertyPic: [
@@ -42,68 +52,12 @@ const regpropertySchema = mongoose.Schema({
       type: String,
     },
   ],
-  isPropertyPic: {
-     type: Boolean,
-      default: true
-     },
-  Bedroom: [{
-    type: String,
-  }],
-  Bathroom: [{
-    type: String,
-  }],
-  Floordetails: [{
-    type: String,
-  }],
-  status: [{
-    type: String,
-  }],
-  Neardown: [{
-    type: String,
-  }],
-  Costsq: [{
-    type: String,
-  }],
-  FromSchool: [{
-    type: String,
-  }],
-  Fromcollage: [{
-    type: String,
-  }],
-  Fromhospital: [{
-    type: String,
-  }],
-  Frombusstand: [{
-    type: String,
-  }],
-  Fromgandhipuram: [{
-    type: String,
-  }],
-  Fromrailwaystation: [{
-    type: String,
-  }],
-  Fromairport: [{
-    type: String,
-  }],
-  Facilties: [{
-    type: String,
-  }],
-  Askprice: [{
-    type: String,
-  }],
-  propertyPic: { type: Boolean, default: true },
+
+  isPropertyPic: { type: Boolean, default: true },
+
   Description: {
     type: String,
   },
-  aflag: {
-    type: Boolean,
-  },
-  status: {
-    type: String,
-  },
-  date: {
-    type: Date,
-    default: Date.now(),
-  },
+
 });
 module.exports = mongoose.model("RegPropertymodels", regpropertySchema);
