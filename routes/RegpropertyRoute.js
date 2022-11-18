@@ -139,11 +139,12 @@ router.post("/Sellproperty", async (req, res) => {
     RegPropertyModel.find(
       {
         $or: [
-          { Price: { $regex: "^" + searchText, $options: "i" } },
-          { Housetype: { $regex: "^" + searchText, $options: "i" } },
-          { Area: { $regex: "^" + searchText, $options: "i" } },
-          { City: { $regex: "^" + searchText, $options: "i" } },
-          { Landmark: { $regex: "^" + searchText, $options: "i" } },
+          { location: { $regex: "^" + searchText, $options: "i" } },
+          { nearTown: { $regex: "^" + searchText, $options: "i" } },
+          { askPrice: { $regex: "^" + searchText, $options: "i" } },
+          { bedRoom: { $regex: "^" + searchText, $options: "i" } },
+          { floorDetails
+            : { $regex: "^" + searchText, $options: "i" } },
           { Seller: { $regex: "^" + searchText, $options: "i" } },
         ],
       },
