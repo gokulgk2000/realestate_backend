@@ -121,6 +121,45 @@ router.post("/register", async (req, res) => {
       }
     });
   });
+  router.put("/edit", async (req, res) => {
+    const { email, firstname, lastname } = req.body;
+    const queryData = {
+      firstname: firstname,
+      lastname: lastname,
+    };
+  
+    userModel.findOneAndUpdate({ email: email }, queryData, (err, user) => {
+      if (err) {
+        return res.json({
+          msg: err,
+        });
+      } else if (user) {
+        userModel.findOne({ email: email }, (err, isUser) => {
+          if (err) {
+            return res.json({
+              msg: "Error Occured",
+              error: err,
+            });
+          } else if (!isUser) {
+            return res.json({
+              msg: "User not Found",
+            });
+          } else {
+            isUser.password = null;
+            isUser.__v = null;
+            return res.json({
+              success: true,
+              userID: isUser._id,
+              firstname: isUser.firstname,
+              lastname: isUser.lastname,
+              email: isUser.email,
+              propertyStatus: isUser.propertyStatus,
+            });
+          }
+        });
+      }
+    });
+  });
   
   router.get("/whoiam", isAuthenticated, async (req, res) => {
     console.log("user id", req.userid);
@@ -170,90 +209,14 @@ router.post("/register", async (req, res) => {
     }
   });
 
- router.post("/forgotpassword",async(req,res) =>{
-    const{email}=req.body;
-    userModel.findOne({email:email},async()=> {
-        if(!email){
-            return res.json({
-                msg:"Please provide a valid email",
-                error:err
-            });
-        } else if(email?.varified){
-            return res.json({
-                msg:"This email isn't verified yet",
-            });
-        } else if(email.aflag){
-            return res.json({
-                msg:"This registered email has been deactivated",
-            })
-        }else {
-            const verifyToken=await JWTtokenGenerator({
-                id:email,
-                expire:"3600s"
-            })
-            const mailOptions = {
-                to: email,
-                subject: "Forget Password Rain Computing",
-                html:
-                  '<p>You requested for Reset Password from Rain Computing, kindly use this <a href="' +
-                  config.FE_URL +
-                  "/forgot-password?token=" +
-                  verifyToken +
-                  '">link</a> to reset your password</p>',
-            };
-            return res.json({
-                success: true,
-                msg: "Pleasse check your email to Reset Your Password ",
-                email: email,
-              });
-        }
-    })
- })
-  
-  router.post("/verifyForgetPassword", async (req, res) => {
-    const { verifyToken, newPassword } = req.body;
-  
-    if (verifyToken) {
-      jwt.verify(verifyToken, config.JWT_SECRET, async (err, decodedToken) => {
-        if (err) {
-          return res.json({
-            msg: err?.name || "Invalid token",
-            err,
-          });
-        } else {
-          console.log("decodedToken : ", decodedToken);
-          const id = decodedToken?.id;
-          const hashPassword = await hashGenerator(newPassword);
-          userModel.findOneAndUpdate(
-            { email: id, verified: true, aflag: true },
-            { password: hashPassword },
-            async (err, user) => {
-              if (err) {
-                console.log("Token error :", err);
-                return res.json({
-                  msg: "Invalid token",
-                  err,
-                });
-              } else if (user) {
-                return res.json({
-                  success: true,
-                  id: user._id,
-                });
-              } else {
-                return res.json({
-                  msg: "Invalid user",
-                });
-              }
-            }
-          );
-        }
-      });
-    } else {
-      return res.json({
-        msg: "Invalid Action",
-      });
-    }
+  router.get("/logout", async (req, res) => {
+    res.cookie("jwt", "", {
+      httpOnly: true,
+      maxAge: 1,
+    });
+    return res.json({ success: true });
   });
+
   router.post("/propertydetails", async (req, res) => {
     const { objectId } = req.body;
     // console.log("objectId" + objectId);
