@@ -4,6 +4,11 @@ const regpropertySchema =mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "userModel",
   },
+  category:{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "categoryModel",
+  },
+  
   Seller: {
     type: String,
   },
