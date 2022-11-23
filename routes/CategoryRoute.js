@@ -2,6 +2,8 @@ const express = require("express");
 const router = express.Router();
 const config = require("../config");
 const CategoryModel = require("../models/CategoryModel");
+const { listeners } = require("../models/RegPropertyModel");
+const RegPropertyModel = require("../models/RegPropertyModel");
 
 
 
@@ -47,11 +49,31 @@ CategoryModel.find({},(err,category)=>{
   else{
     return res.json({
       success:true,
-      msg:"added",
+      msg:"category selected",
       category
     })
   }
 })
 
 })
+router.post("/categoryId", async (req, res) => {
+  try {
+    const { id } = req.body;
+    RegPropertyModel.find({ category: id},(err, prop) => {
+        if (err) {
+          return res.json({
+            msg: err ,
+          });
+        } else {
+          return res.json({
+            success: true,
+            prop
+          });
+        }
+      });
+  } catch (err) {
+    return res.json({ msg: "errrrr" ,err});
+  }
+});
+
 module.exports = router;

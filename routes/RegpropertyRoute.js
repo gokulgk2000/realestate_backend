@@ -156,7 +156,7 @@ router.post("/Sellproperty", async (req, res) => {
       },
       null,
       {limit:10,
-      skip:( (page - 1) * limit)},
+      },
   
       (err, list) => {
         if (err) {
