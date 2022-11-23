@@ -13,6 +13,7 @@ router.post("/Sellproperty", async (req, res) => {
       //De-Struturing values from request body
       const {
         userID,
+        category,
         Seller,
         location,
         layoutName,
@@ -29,14 +30,16 @@ router.post("/Sellproperty", async (req, res) => {
         askPrice,
         propertyPic,
         Description,
+        
       } = req.body;
-      // console.log("Response :",req.body)
+      console.log("Response :",req.body)
       //Finding user from DB collection using unique userID
       const user = await userModel.findOne({ _id: userID });
       //Executes is user found
       if (user) {
         const queryData = {
           userID,
+          category:category,
           Seller:Seller,
           location:location,
           layoutName:layoutName,
@@ -53,6 +56,7 @@ router.post("/Sellproperty", async (req, res) => {
           askPrice:askPrice,
           propertyPic: propertyPic,
           Description: Description,
+         
           aflag: true,
         };
         const isAlreadyRegistered = await RegPropertyModel.find({
