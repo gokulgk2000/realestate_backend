@@ -1,7 +1,7 @@
 const express = require("express");
 // const { reject } = require("lodash");
 const jwt = require("jsonwebtoken");
-const { hashGenerator } = require("../helpers/Hashing");
+const { hashGenerator } = require("../helpers/Hashing");        
 const { hashValidator } = require("../helpers/Hashing");
 const { JWTtokenGenerator } = require("../helpers/token");
 //const ActiveSessionModel = require("../models/activeSession");
@@ -96,7 +96,7 @@ router.post("/getPropertyDetailsById", async (req, res) => {
       if (err) {
         return res.json({
           msg: err,
-        });
+        }); 
       } else if (Property) {
         return res.json({
           success: true,
@@ -146,6 +146,7 @@ router.put("/removeUser", async (req, res) => {
   const { userID } = req.body;
   const removeUser = await userModel.findByIdAndUpdate(userID, {
     aflag: false,
+    status: "Rejected",
     lastModified: Date.now(),
   });
   if (!removeUser) {
@@ -156,8 +157,9 @@ router.put("/removeUser", async (req, res) => {
 });
 router.put("/removeProperty", async (req, res) => {
   const { PropertyID } = req.body;
-  const removeProperty = await RegPropertyModel.findByIdAndUpdate(PropertyID, {
+  const removeProperty = await RegPropertyModel.findByIdAndUpdate(PropertyID,{
     aflag: false,
+    status: "Rejected",
     lastModified: Date.now(),
   });
   if (!removeProperty) {
@@ -166,4 +168,23 @@ router.put("/removeProperty", async (req, res) => {
     res.json({ success: true, removeProperty });
   }
 });
+router.post('/getAllUsersPage', async (req, res) => {
+  try{
+    const { page=2,size=10 }=req.body;
+    
+    const limit = parseInt(size);
+    const skip = (page - 1) * limit
+
+    const users =await userModel.find().limit(limit).skip(skip)
+    res.send({
+      page,
+      size,
+      data:users
+    })
+  }catch(err){
+    return res.json({ msg: err?.name || err });
+
+  }
+})
+
 module.exports = router;

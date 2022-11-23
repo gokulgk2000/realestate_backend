@@ -34,6 +34,9 @@ const userSchema = mongoose.Schema({
       aflag: {
         type: Boolean,
       },
+      status: {
+        type: String,
+      },
       date: {
         type: Date,
         default: Date.now(),

@@ -22,6 +22,7 @@ router.post("/Sellproperty", async (req, res) => {
         builtArea,
         bedRoom,
         floorDetails,
+        propertyStatus,
         status,
         nearTown,
         costSq,
@@ -46,6 +47,7 @@ router.post("/Sellproperty", async (req, res) => {
           builtArea:builtArea,
           bedRoom:bedRoom,
           floorDetails:floorDetails,
+          propertyStatus:propertyStatus,
           status:status,
           nearTown:nearTown,
           costSq:costSq,
@@ -149,7 +151,36 @@ router.post("/Sellproperty", async (req, res) => {
         ],
       },
       null,
+      {limit:10,
+      skip:( (page - 1) * limit)},
   
+      (err, list) => {
+        if (err) {
+          res.json({
+            msg: err,
+          });
+        } else {
+          res.json({
+            success: true,
+            property: list,
+          });
+        }
+      }
+    );
+  });
+  router.post("/allProperty", async (req, res) => {
+    const {  searchText } = req.body;
+    const skip = (page - 1) * limit;
+    RegPropertyModel.find(
+      {
+        $or: [
+          { landArea: { $regex: "^" + searchText, $options: "i" } },
+          { location: { $regex: "^" + searchText, $options: "i" } },
+          { Seller: { $regex: "^" + searchText, $options: "i" } },
+        ],
+      },
+      null,
+      { skip: skip, },
       (err, list) => {
         if (err) {
           res.json({

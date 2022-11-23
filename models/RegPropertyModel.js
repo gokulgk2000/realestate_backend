@@ -32,7 +32,7 @@ const regpropertySchema =mongoose.Schema({
   floorDetails: {
     type: String,
   },
-  status: {
+  propertyStatus: {
     type: String,
   },
   nearTown: {
@@ -58,9 +58,15 @@ const regpropertySchema =mongoose.Schema({
   Description: {
     type: String,
   },
+  status: {
+    type: String,
+  },
   date: {
     type: Date,
     default: Date.now(),
+  },
+  aflag: {
+    type: Boolean,
   },
 });
 module.exports = mongoose.model("RegPropertymodels", regpropertySchema);
