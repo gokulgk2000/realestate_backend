@@ -64,6 +64,7 @@ router.post("/adminLogin", async (req, res) => {
     }
   });
 });
+
 router.post("/getUserById", async (req, res) => {
   try {
     const { userId } = req.body;
@@ -89,6 +90,7 @@ router.post("/getUserById", async (req, res) => {
     });
   }
 });
+
 router.post("/getPropertyDetailsById", async (req, res) => {
   try {
     const { propertyId } = req.body;
@@ -114,6 +116,7 @@ router.post("/getPropertyDetailsById", async (req, res) => {
     });
   }
 });
+
 router.get("/allUsersList", async (req, res) => {
   userModel.find((err, list) => {
     if (err) {
@@ -128,6 +131,7 @@ router.get("/allUsersList", async (req, res) => {
     }
   });
 });
+
 router.get("/allPropertiesList", async (req, res) => {
   RegPropertyModel.find((err, list) => {
     if (err) {
@@ -142,6 +146,7 @@ router.get("/allPropertiesList", async (req, res) => {
     }
   });
 });
+
 router.put("/removeUser", async (req, res) => {
   const { userID } = req.body;
   const removeUser = await userModel.findByIdAndUpdate(userID, {
@@ -154,7 +159,8 @@ router.put("/removeUser", async (req, res) => {
   } else {
     res.json({ success: true, removeUser });
   }
-});
+}); 
+
 router.put("/removeProperty", async (req, res) => {
   const { PropertyID } = req.body;
   const removeProperty = await RegPropertyModel.findByIdAndUpdate(PropertyID,{
@@ -168,14 +174,15 @@ router.put("/removeProperty", async (req, res) => {
     res.json({ success: true, removeProperty });
   }
 });
+
 router.post('/getAllUsersPage', async (req, res) => {
   try{
-    const { page=2,size=10 }=req.body;
+    const { page=1,size=10 }=req.body;
     
     const limit = parseInt(size);
     const skip = (page - 1) * limit
 
-    const users =await userModel.find().limit(limit).skip(skip)
+    const users =await userModel.find({},null,{limit,skip})
     res.send({
       page,
       size,
@@ -186,5 +193,87 @@ router.post('/getAllUsersPage', async (req, res) => {
 
   }
 })
+
+router.put("/adminedit", async (req, res) => {
+  const { id, landArea, location ,
+    layoutName,
+    facing,
+    approachRoad,
+    builtArea,
+    bedRoom,
+    floorDetails,
+    status,
+    nearTown,
+    costSq,
+    facilities,
+    askPrice,
+    propertyPic,
+    Description,} = req.body;
+  const queryData = {
+    location: location,
+    layoutName:layoutName,
+    landArea: landArea,
+    facing: facing,
+    approachRoad:approachRoad,
+    builtArea: builtArea,
+    bedRoom:bedRoom,
+    floorDetails: floorDetails,
+    status: status,
+    nearTown:nearTown,
+    costSq: costSq,
+    facilities:facilities,
+    askPrice: askPrice,
+    propertyPic: propertyPic,
+    Description:Description,
+  };
+  RegPropertyModel.findByIdAndUpdate({ _id: id }, queryData, (err, user) => {
+    if (err) {
+      return res.json({
+        msg: err,
+      });
+    } else if (user) {
+      RegPropertyModel.findOne({ _id: id }, (err, isUser) => {
+        if (err) {
+          return res.json({
+            msg: "Error Occured",
+            error: err,
+          });
+        } else if (!isUser) {
+          return res.json({
+            msg: "User not Found",
+          });
+        } else {
+          return res.json({
+            success: true,
+            userID: isUser._id,
+            landArea: isUser.landArea,
+            location: isUser.location,
+            layoutName,
+    facing:isUser.facing,
+    approachRoad:isUser.approachRoad,
+    builtArea:isUser.builtArea,
+    bedRoom:isUser.bedRoom,
+    floorDetails:isUser.floorDetails,
+    status:isUser.status,
+    nearTown:isUser.nearTown,
+    costSq: isUser.costSq,
+    facilities:isUser.facilities,
+    askPrice: isUser.askPrice,
+    propertyPic: isUser.propertyPic,
+    Description: isUser.Description,
+          });
+        }
+      });
+    }
+  });
+});
+
+
+
+
+
+
+
+
 
 module.exports = router;
