@@ -117,7 +117,9 @@ router.post("/Sellproperty", async (req, res) => {
   router.post("/getpropertyById", async (req, res) => {
     try {
         const { propertyId } = req.body;
-        RegPropertyModel.findById(propertyId, async (err, Property) => {
+        RegPropertyModel.findById(propertyId, async  (err, Property) =>
+         {
+        
           if (err) {
             return res.json({
               msg: err,
@@ -141,7 +143,7 @@ router.post("/Sellproperty", async (req, res) => {
     });
   
   router.post("/properties", async (req, res) => {
-    const { searchText } = req.body;
+    const { searchText  } = req.body;
     RegPropertyModel.find(
       {
         $or: [
@@ -152,13 +154,14 @@ router.post("/Sellproperty", async (req, res) => {
           { floorDetails
             : { $regex: "^" + searchText, $options: "i" } },
           { Seller: { $regex: "^" + searchText, $options: "i" } },
+          {facing: { $regex: "^" + searchText, $options: "i" } },
         ],
       },
       null,
       {limit:10,
       },
   
-      (err, list) => {
+      ( list) => {
         if (err) {
           res.json({
             msg: err,
@@ -172,31 +175,36 @@ router.post("/Sellproperty", async (req, res) => {
       }
     );
   });
-  router.post("/allProperty", async (req, res) => {
-    const {  searchText } = req.body;
-    const skip = (page - 1) * limit;
-    RegPropertyModel.find(
-      {
-        $or: [
-          { landArea: { $regex: "^" + searchText, $options: "i" } },
-          { location: { $regex: "^" + searchText, $options: "i" } },
-          { Seller: { $regex: "^" + searchText, $options: "i" } },
-        ],
-      },
-      null,
-      { skip: skip, },
-      (err, list) => {
-        if (err) {
-          res.json({
-            msg: err,
-          });
-        } else {
-          res.json({
-            success: true,
-            property: list,
-          });
-        }
-      }
-    );
-  });
+  // router.post("/allProperty", async (req, res) => {
+  //   const {  searchText} = req.body;
+  //   const skip = (page - 1) * limit;
+  //   RegPropertyModel.find(
+  //     {
+  //       $or: [
+  //         { landArea: { $regex: "^" + searchText, $options: "i" } },
+  //         { location: { $regex: "^" + searchText, $options: "i" } },
+  //         { Seller: { $regex: "^" + searchText, $options: "i" } },
+  //         { facing: { $regex: "^" + searchText, $options: "i" } },
+  //       ],
+  //     },
+  //     null,
+  //     { skip: skip, } ,
+  //     (err, list,)  => {
+  //       if (err) {
+  //         res.json({
+  //          msg:err
+  //         });
+  //       }
+    
+       
+  //       else {
+  //         res.json({
+  //           success: true,
+  //           property: list,
+  //         });
+  //       }
+  //     }
+  //   );
+  // });
+  
   module.exports = router;

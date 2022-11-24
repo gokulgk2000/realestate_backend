@@ -56,18 +56,29 @@ CategoryModel.find({},(err,category)=>{
 })
 
 })
-router.post("/categoryId", async (req, res) => {
+router.post("/getPropertiescategoryId", async (req, res) => {
   try {
-    const { id } = req.body;
-    RegPropertyModel.find({ category: id},(err, prop) => {
+    const { id ,searchText=""} = req.body;
+    let categoryQuery ={$or: [
+      { location: { $regex: "^" + searchText, $options: "i" } },
+      { askPrice: { $regex: "^" + searchText, $options: "i" } },
+      { bedRoom: { $regex: "^" + searchText, $options: "i" } },
+      { floorDetails
+        : { $regex: "^" + searchText, $options: "i" } },
+      { Seller: { $regex: "^" + searchText, $options: "i" } },
+      {facing: { $regex: "^" + searchText, $options: "i" } },
+    ]}
+    if (id) categoryQuery.category=id
+    RegPropertyModel.find(categoryQuery,(err,category) => {
         if (err) {
           return res.json({
             msg: err ,
-          });
-        } else {
+          });         
+        }
+        else {
           return res.json({
             success: true,
-            prop
+            category
           });
         }
       });
