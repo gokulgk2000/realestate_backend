@@ -42,6 +42,8 @@ const create=async() =>{
     app.use("/api/property", require("./routes/RegpropertyRoute"));
     app.use("/api/admin", require("./routes/adminRoute"));
     app.use("/api/category", require("./routes/CategoryRoute"));
+    app.use("/api/buyer", require("./routes/BuyerRoute"));
+
 
 
 
