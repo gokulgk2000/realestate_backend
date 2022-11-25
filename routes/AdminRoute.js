@@ -195,7 +195,7 @@ router.post('/getAllUsersPage', async (req, res) => {
 })
 
 router.put("/adminedit", async (req, res) => {
-  const { id, landArea, location ,
+  const { id,Seller, landArea, location ,
     layoutName,
     facing,
     approachRoad,
@@ -210,6 +210,7 @@ router.put("/adminedit", async (req, res) => {
     propertyPic,
     Description,} = req.body;
   const queryData = {
+    Seller:Seller,
     location: location,
     layoutName:layoutName,
     landArea: landArea,
@@ -246,6 +247,7 @@ router.put("/adminedit", async (req, res) => {
           return res.json({
             success: true,
             userID: isUser._id,
+            seller:isUser.Seller,
             landArea: isUser.landArea,
             location: isUser.location,
             layoutName,
