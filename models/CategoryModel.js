@@ -12,4 +12,4 @@ const categorySchema = mongoose.Schema({
     type: Boolean,
   }
 });
-module.exports = mongoose.model("categorymodel", categorySchema);
+module.exports = mongoose.model("categoryModel", categorySchema);

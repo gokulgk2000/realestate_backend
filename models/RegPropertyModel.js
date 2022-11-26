@@ -73,5 +73,9 @@ const regpropertySchema =mongoose.Schema({
   aflag: {
     type: Boolean,
   },
+  isBlock:{
+   type:Boolean,
+   default:false
+  }
 });
 module.exports = mongoose.model("RegPropertymodels", regpropertySchema);

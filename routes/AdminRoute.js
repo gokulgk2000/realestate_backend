@@ -148,16 +148,23 @@ router.get("/allPropertiesList", async (req, res) => {
 });
 
 router.put("/removeUser", async (req, res) => {
-  const { userID } = req.body;
+  const { userID} = req.body;   
   const removeUser = await userModel.findByIdAndUpdate(userID, {
     aflag: false,
     status: "Rejected",
     lastModified: Date.now(),
-  });
+
+  }); 
+  //  console.log(removeuser)
+
   if (!removeUser) {
     res.status(404);
   } else {
-    res.json({ success: true, removeUser });
+
+    res.json({ success: true, removeUser});
+     const propertyRes = await RegPropertyModel.updateMany({regUser:userID},{isBlock:true})
+  console.log(propertyRes)
+ 
   }
 }); 
 

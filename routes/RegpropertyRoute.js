@@ -92,6 +92,7 @@ router.post("/Sellproperty", async (req, res) => {
   router.post("/getpropertyByUserId", async (req, res) => {
     try {
       const { userID } = req.body;
+     
       RegPropertyModel.find({ regUser: userID })
         // .populate({
         //   path: "regUser",
@@ -114,26 +115,17 @@ router.post("/Sellproperty", async (req, res) => {
       return res.json({ msg: err });
     }
   });
+
   router.post("/getpropertyById", async (req, res) => {
     try {
         const { propertyId } = req.body;
-        RegPropertyModel.findById(propertyId, async  (err, Property) =>
-         {
-        
-          if (err) {
-            return res.json({
-              msg: err,
-            });
-          } else if (Property) {
-            return res.json({
-              success: true,
-              Property,
-            });
-          } else {
-            return res.json({
-              msg: `No Property Found With Id ${propertyId}`,
-            });
-          }
+        const property =await  RegPropertyModel.findById(propertyId,null,{populate:{path:"category",select:"name _id"}})
+        if(property) return res.json({
+          success: true,
+          property,
+        });
+        else return res.json({
+         msg:"Property not found"
         });
       } catch (err) {
         return res.json({
@@ -142,7 +134,8 @@ router.post("/Sellproperty", async (req, res) => {
       }
     });
   
-  router.post("/properties", async (req, res) => {
+
+  router.post("/searchProperties", async (req, res) => {
     const { searchText  } = req.body;
     RegPropertyModel.find(
       {
@@ -153,7 +146,7 @@ router.post("/Sellproperty", async (req, res) => {
           { bedRoom: { $regex: "^" + searchText, $options: "i" } },
           { floorDetails
             : { $regex: "^" + searchText, $options: "i" } },
-          { Seller: { $regex: "^" + searchText, $options: "i" } },
+          { category: { $regex: "^" + searchText, $options: "i" } },
           {facing: { $regex: "^" + searchText, $options: "i" } },
         ],
       },
