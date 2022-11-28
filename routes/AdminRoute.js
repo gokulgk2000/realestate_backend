@@ -67,8 +67,8 @@ router.post("/adminLogin", async (req, res) => {
 
 router.post("/getUserById", async (req, res) => {
   try {
-    const { userId } = req.body;
-    userModel.findById(userId, async (err, User) => {
+    const { userID } = req.body;
+    userModel.findById(userID, async (err, User) => {
       if (err) {
         return res.json({
           msg: err,
@@ -80,7 +80,7 @@ router.post("/getUserById", async (req, res) => {
         });
       } else {
         return res.json({
-          msg: `No User Found With Id ${userId}`,
+          msg: `No User Found With Id ${userID}`,
         });
       }
     });
@@ -162,11 +162,33 @@ router.put("/removeUser", async (req, res) => {
   } else {
 
     res.json({ success: true, removeUser});
-     const propertyRes = await RegPropertyModel.updateMany({regUser:userID},{isBlock:true})
+     const propertyRes = await RegPropertyModel.updateMany({regUser:userID},{isBlock:true,status :"Rejected"})
   console.log(propertyRes)
  
   }
 }); 
+
+router.put("/addUser", async (req, res) => {
+  const { userID} = req.body;   
+  const addUser = await userModel.findByIdAndUpdate(userID, {
+    aflag: true,
+    status: "Approved",
+    lastModified: Date.now(),
+
+  }); 
+  //  console.log(removeuser)
+
+  if (!addUser) {
+    res.status(404);
+  } else {
+
+    res.json({ success: true, addUser});
+     const propertyRes = await RegPropertyModel.updateMany({regUser:userID},{isBlock:false,status :"Approved"})
+  console.log(propertyRes)
+ 
+  }
+}); 
+
 
 router.put("/removeProperty", async (req, res) => {
   const { PropertyID } = req.body;
