@@ -13,24 +13,20 @@ const buyerSchema = mongoose.Schema({
     
   },
   propertyId:{
-    
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "RegPropertymodels",
   },
- 
   phonenumber:{
-   type: String,
+    type: String,
+   },  
+  status: {
+    type: String,
+    default:"pending"
   },
-
-    
    
-    
-      
       aflag: {
         type: Boolean,
       },
-     
-     
-    
     });
 
     module.exports = mongoose.model("buyermodels", buyerSchema);

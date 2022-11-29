@@ -9,6 +9,7 @@ const { isAuthenticated } = require("../helpers/safeRoutes");
 const AdminModel = require("../models/AdminModel");
 const RegPropertyModel = require("../models/RegPropertyModel");
 const userModel = require("../models/userModel");
+const BuyerModel = require("../models/BuyerModel");
 
 const router = express.Router();
 router.post("/adminLogin", async (req, res) => {
@@ -167,6 +168,22 @@ router.put("/removeUser", async (req, res) => {
  
   }
 }); 
+router.put("/removeBuyer", async (req, res) => {
+  const { userID} = req.body;   
+  const removeBuyer = await BuyerModel.findByIdAndUpdate(userID, {
+    aflag: false,
+    status: "rejected",
+    lastModified: Date.now(),
+
+  }); 
+  console.log(removeBuyer)
+
+  if (!removeBuyer) {
+    res.status(404);
+  } else {
+    res.json({ success: true, removeBuyer});
+  }
+}); 
 
 router.put("/addUser", async (req, res) => {
   const { userID} = req.body;   
@@ -188,7 +205,40 @@ router.put("/addUser", async (req, res) => {
  
   }
 }); 
+router.put("/addBuyer", async (req, res) => {
+  const { userID} = req.body;   
+  const addBuyer = await BuyerModel.findByIdAndUpdate(userID, {
+    aflag: true,
+    status: "approved",
+    lastModified: Date.now(),
 
+  }); 
+  //  console.log(removeuser)
+
+  if (!addBuyer) {
+    res.status(404);
+  } else {
+
+    res.json({ success: true, addBuyer});
+  
+ 
+  }
+}); 
+
+
+router.put("/addProperty", async (req, res) => {
+  const { PropertyID } = req.body;
+  const addProperty = await RegPropertyModel.findByIdAndUpdate(PropertyID,{
+    aflag: true,
+    status: "approved",
+    lastModified: Date.now(),
+  });
+  if (!addProperty) {
+    res.status(404);
+  } else {
+    res.json({ success: true, addProperty });
+  }
+});
 
 router.put("/removeProperty", async (req, res) => {
   const { PropertyID } = req.body;
