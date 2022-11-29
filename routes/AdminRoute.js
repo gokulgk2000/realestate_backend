@@ -151,7 +151,7 @@ router.put("/removeUser", async (req, res) => {
   const { userID} = req.body;   
   const removeUser = await userModel.findByIdAndUpdate(userID, {
     aflag: false,
-    status: "Rejected",
+    status: "rejected",
     lastModified: Date.now(),
 
   }); 
@@ -162,7 +162,7 @@ router.put("/removeUser", async (req, res) => {
   } else {
 
     res.json({ success: true, removeUser});
-     const propertyRes = await RegPropertyModel.updateMany({regUser:userID},{isBlock:true,status :"Rejected"})
+     const propertyRes = await RegPropertyModel.updateMany({regUser:userID},{isBlock:true,status :"rejected"})
   console.log(propertyRes)
  
   }
@@ -172,7 +172,7 @@ router.put("/addUser", async (req, res) => {
   const { userID} = req.body;   
   const addUser = await userModel.findByIdAndUpdate(userID, {
     aflag: true,
-    status: "Approved",
+    status: "approved",
     lastModified: Date.now(),
 
   }); 
@@ -183,7 +183,7 @@ router.put("/addUser", async (req, res) => {
   } else {
 
     res.json({ success: true, addUser});
-     const propertyRes = await RegPropertyModel.updateMany({regUser:userID},{isBlock:false,status :"Approved"})
+     const propertyRes = await RegPropertyModel.updateMany({regUser:userID},{isBlock:false,status :"approved"})
   console.log(propertyRes)
  
   }
@@ -194,7 +194,7 @@ router.put("/removeProperty", async (req, res) => {
   const { PropertyID } = req.body;
   const removeProperty = await RegPropertyModel.findByIdAndUpdate(PropertyID,{
     aflag: false,
-    status: "Rejected",
+    status: "rejected",
     lastModified: Date.now(),
   });
   if (!removeProperty) {

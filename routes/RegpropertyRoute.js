@@ -203,5 +203,30 @@ router.post("/Sellproperty", async (req, res) => {
   //     }
   //   );
   // });
-  
+  router.post("/getproById", async (req, res) => {
+    try {
+        const { propertyId } = req.body;
+        RegPropertyModel.findById(propertyId, async  (err, Property) =>
+         {
+          if (err) {
+            return res.json({
+              msg: err,
+            });
+          } else if (Property) {
+            return res.json({
+              success: true,
+              Property,
+            });
+          } else {
+            return res.json({
+              msg: `No Property Found With Id ${propertyId}`,
+            });
+          }
+        });
+      } catch (err) {
+        return res.json({
+          msg: err,
+        });
+      }
+    });
   module.exports = router;

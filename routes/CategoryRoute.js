@@ -60,7 +60,7 @@ router.post("/getPropertiescategoryId", async (req, res) => {
   try {
     const { id ,searchText=""} = req.body;
     let regex = new RegExp(searchText,'i');
-    let categoryQuery=({isBlock:"false",status:"Approved"})
+    let categoryQuery=({isBlock:"false",status:"approved"})
     if(searchText !==null && searchText!==undefined) categoryQuery.$or = [
       { location: regex },
       { askPrice: regex },
