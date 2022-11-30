@@ -147,6 +147,55 @@ router.get("/allPropertiesList", async (req, res) => {
     }
   });
 });
+router.put("/removeBuyer", async (req, res) => {
+  const { userID} = req.body;   
+  const removeBuyer = await BuyerModel.findByIdAndUpdate(userID, {
+    aflag: false,
+    status: "rejected",
+    lastModified: Date.now(),
+
+  }); 
+  console.log(removeBuyer)
+
+  if (!removeBuyer) {
+    res.status(404);
+  } else {
+    res.json({ success: true, removeBuyer});
+  }
+}); 
+router.put("/addBuyer", async (req, res) => {
+  const { userID} = req.body;   
+  const addBuyer = await BuyerModel.findByIdAndUpdate(userID, {
+    aflag: true,
+    status: "approved",
+    lastModified: Date.now(),
+
+  }); 
+  //  console.log(removeuser)
+
+  if (!addBuyer) {
+    res.status(404);
+  } else {
+
+    res.json({ success: true, addBuyer});
+  
+ 
+  }
+}); 
+router.put("/addProperty", async (req, res) => {
+  const { PropertyID } = req.body;
+  const addProperty = await RegPropertyModel.findByIdAndUpdate(PropertyID,{
+    aflag: true,
+    status: "approved",
+    lastModified: Date.now(),
+  });
+  if (!addProperty) {
+    res.status(404);
+  } else {
+    res.json({ success: true, addProperty });
+  }
+});
+
 
 router.put("/removeUser", async (req, res) => {
   const { userID } = req.body;
