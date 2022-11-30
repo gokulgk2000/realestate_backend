@@ -12,7 +12,7 @@ const RegPropertyModel = require("../models/RegPropertyModel");
 router.get("/", (req, res) => res.send("User Route"));
 
 router.post("/register", async (req, res) => {
-  const { firstname, lastname, email, password } = req.body;
+  const { firstname, lastname, email, password,profilePic } = req.body;
   // console.log(req.body, "req.body");
   if (!password) {
     return res.json({
@@ -44,6 +44,7 @@ router.post("/register", async (req, res) => {
         email: email,
         password: hashPassword,
         aflag: true,
+        profilePic:[]
       };
       userModel.create(queryData, async (err, user) => {
         if (err) {
@@ -256,21 +257,26 @@ router.put("/profileEdit", async (req, res) => {
       userID,
       firstname,
       lastname,
+      
     } = req.body;
     const queryData = {
       firstname: firstname,
       lastname: lastname,
       // profilePic: profilePic,
     };
+   
 
-    userModel.findByIdAndUpdate(userID, queryData => {
+    userModel.findByIdAndUpdate(userID,queryData,()=> {
 
-      
+   
       return res.json({
         
          success: true, 
-         msg:updated, 
+        //  msg:updated, 
+        queryData
        })
+
+
       // if (err) {
       //   return res.json({
       //     msg: "Error Occured",

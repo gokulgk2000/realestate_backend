@@ -24,11 +24,11 @@ const userSchema = mongoose.Schema({
         required: true,
       },
       profilePic: {
-        type: String,
+        type: Array,
        
       },
     
-      isPropertyPic: { type: Boolean, default: true },
+    
       
       
       aflag: {

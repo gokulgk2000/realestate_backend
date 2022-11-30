@@ -64,7 +64,7 @@ router.post("/Sellproperty", async (req, res) => {
         const isAlreadyRegistered = await RegPropertyModel.find({
           Seller,
         });
-        if (isAlreadyRegistered) {
+        if (!isAlreadyRegistered) {
           return res.json({ msg: `${Seller} already exist` });
         } else {
           const regProperty = await RegPropertyModel.create(queryData);
