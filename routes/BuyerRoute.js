@@ -112,7 +112,14 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/allBuyerList", async (req, res) => {
-  BuyerModel.find((err, list) => {
+  BuyerModel.find({})
+  .populate([
+    {
+      path: "propertyId",
+      select: "layoutName location",
+    },
+  ])
+  .exec ((err, list) => {
     if (err) {
       res.json({
         msg: err,

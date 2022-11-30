@@ -16,6 +16,7 @@ const buyerSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "RegPropertymodels",
   },
+ 
   phonenumber:{
     type: String,
    },  
