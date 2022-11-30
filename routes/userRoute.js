@@ -249,4 +249,51 @@ router.get("/properties", async (req, res) => {
   });
 });
 
+router.put("/profileEdit", async (req, res) => {
+  try {
+    const {
+      //  firstname,lastname,profilePic,
+      userID,
+      firstname,
+      lastname,
+    } = req.body;
+    const queryData = {
+      firstname: firstname,
+      lastname: lastname,
+      // profilePic: profilePic,
+    };
+
+    userModel.findByIdAndUpdate(userID, queryData => {
+
+      
+      return res.json({
+        
+         success: true, 
+         msg:updated, 
+       })
+      // if (err) {
+      //   return res.json({
+      //     msg: "Error Occured",
+      //     error: err,
+      //   });
+      // } else if (!user) {
+      //   return res.json({
+      //     msg: "User not Found",
+      //   });
+      // } 
+      // else {
+      
+      //     userID: user._id,
+      //     firstname: user.firstname,
+      //     lastname: user.lastname,
+        
+         
+      // ;
+      // }
+    });
+  } catch (err) {
+    return res.json({ msg: err });
+  }
+});
+
 module.exports = router;

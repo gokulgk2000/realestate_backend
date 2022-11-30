@@ -1,7 +1,7 @@
 const express = require("express");
 // const { reject } = require("lodash");
 const jwt = require("jsonwebtoken");
-const { hashGenerator } = require("../helpers/Hashing");        
+const { hashGenerator } = require("../helpers/Hashing");
 const { hashValidator } = require("../helpers/Hashing");
 const { JWTtokenGenerator } = require("../helpers/token");
 //const ActiveSessionModel = require("../models/activeSession");
@@ -98,7 +98,7 @@ router.post("/getPropertyDetailsById", async (req, res) => {
       if (err) {
         return res.json({
           msg: err,
-        }); 
+        });
       } else if (Property) {
         return res.json({
           success: true,
@@ -148,51 +148,50 @@ router.get("/allPropertiesList", async (req, res) => {
 });
 
 router.put("/removeUser", async (req, res) => {
-  const { userID} = req.body;   
+  const { userID } = req.body;
   const removeUser = await userModel.findByIdAndUpdate(userID, {
     aflag: false,
     status: "rejected",
     lastModified: Date.now(),
-
-  }); 
+  });
   //  console.log(removeuser)
 
   if (!removeUser) {
     res.status(404);
   } else {
-
-    res.json({ success: true, removeUser});
-     const propertyRes = await RegPropertyModel.updateMany({regUser:userID},{isBlock:true,status :"rejected"})
-  console.log(propertyRes)
- 
+    res.json({ success: true, removeUser });
+    const propertyRes = await RegPropertyModel.updateMany(
+      { regUser: userID },
+      { isBlock: true, status: "rejected" }
+    );
+    console.log(propertyRes);
   }
-}); 
+});
 
 router.put("/addUser", async (req, res) => {
-  const { userID} = req.body;   
+  const { userID } = req.body;
   const addUser = await userModel.findByIdAndUpdate(userID, {
     aflag: true,
     status: "approved",
     lastModified: Date.now(),
-
-  }); 
+  });
   //  console.log(removeuser)
 
   if (!addUser) {
     res.status(404);
   } else {
-
-    res.json({ success: true, addUser});
-     const propertyRes = await RegPropertyModel.updateMany({regUser:userID},{isBlock:false,status :"approved"})
-  console.log(propertyRes)
- 
+    res.json({ success: true, addUser });
+    const propertyRes = await RegPropertyModel.updateMany(
+      { regUser: userID },
+      { isBlock: false, status: "approved" }
+    );
+    console.log(propertyRes);
   }
-}); 
-
+});
 
 router.put("/removeProperty", async (req, res) => {
   const { PropertyID } = req.body;
-  const removeProperty = await RegPropertyModel.findByIdAndUpdate(PropertyID,{
+  const removeProperty = await RegPropertyModel.findByIdAndUpdate(PropertyID, {
     aflag: false,
     status: "rejected",
     lastModified: Date.now(),
@@ -204,27 +203,30 @@ router.put("/removeProperty", async (req, res) => {
   }
 });
 
-router.post('/getAllUsersPage', async (req, res) => {
-  try{
-    const { page=1,size=10 }=req.body;
-    
-    const limit = parseInt(size);
-    const skip = (page - 1) * limit
+router.post("/getAllUsersPage", async (req, res) => {
+  try {
+    const { page = 1, size = 10 } = req.body;
 
-    const users =await userModel.find({},null,{limit,skip})
+    const limit = parseInt(size);
+    const skip = (page - 1) * limit;
+
+    const users = await userModel.find({}, null, { limit, skip });
     res.send({
       page,
       size,
-      data:users
-    })
-  }catch(err){
+      data: users,
+    });
+  } catch (err) {
     return res.json({ msg: err?.name || err });
-
   }
-})
+});
 
 router.put("/adminedit", async (req, res) => {
-  const { id,Seller, landArea, location ,
+  const {
+    id,
+    Seller,
+    landArea,
+    location,
     layoutName,
     facing,
     approachRoad,
@@ -237,24 +239,25 @@ router.put("/adminedit", async (req, res) => {
     facilities,
     askPrice,
     propertyPic,
-    Description,} = req.body;
+    Description,
+  } = req.body;
   const queryData = {
-    Seller:Seller,
+    Seller: Seller,
     location: location,
-    layoutName:layoutName,
+    layoutName: layoutName,
     landArea: landArea,
     facing: facing,
-    approachRoad:approachRoad,
+    approachRoad: approachRoad,
     builtArea: builtArea,
-    bedRoom:bedRoom,
+    bedRoom: bedRoom,
     floorDetails: floorDetails,
     status: status,
-    nearTown:nearTown,
+    nearTown: nearTown,
     costSq: costSq,
-    facilities:facilities,
+    facilities: facilities,
     askPrice: askPrice,
     propertyPic: propertyPic,
-    Description:Description,
+    Description: Description,
   };
   RegPropertyModel.findByIdAndUpdate({ _id: id }, queryData, (err, user) => {
     if (err) {
@@ -276,35 +279,27 @@ router.put("/adminedit", async (req, res) => {
           return res.json({
             success: true,
             userID: isUser._id,
-            seller:isUser.Seller,
+            seller: isUser.Seller,
             landArea: isUser.landArea,
             location: isUser.location,
             layoutName,
-    facing:isUser.facing,
-    approachRoad:isUser.approachRoad,
-    builtArea:isUser.builtArea,
-    bedRoom:isUser.bedRoom,
-    floorDetails:isUser.floorDetails,
-    status:isUser.status,
-    nearTown:isUser.nearTown,
-    costSq: isUser.costSq,
-    facilities:isUser.facilities,
-    askPrice: isUser.askPrice,
-    propertyPic: isUser.propertyPic,
-    Description: isUser.Description,
+            facing: isUser.facing,
+            approachRoad: isUser.approachRoad,
+            builtArea: isUser.builtArea,
+            bedRoom: isUser.bedRoom,
+            floorDetails: isUser.floorDetails,
+            status: isUser.status,
+            nearTown: isUser.nearTown,
+            costSq: isUser.costSq,
+            facilities: isUser.facilities,
+            askPrice: isUser.askPrice,
+            propertyPic: isUser.propertyPic,
+            Description: isUser.Description,
           });
         }
       });
     }
   });
 });
-
-
-
-
-
-
-
-
 
 module.exports = router;

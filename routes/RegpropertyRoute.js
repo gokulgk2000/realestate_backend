@@ -64,14 +64,14 @@ router.post("/Sellproperty", async (req, res) => {
         const isAlreadyRegistered = await RegPropertyModel.find({
           Seller,
         });
-        if (isAlreadyRegistered.length > 0) {
+        if (isAlreadyRegistered) {
           return res.json({ msg: `${Seller} already exist` });
         } else {
           const regProperty = await RegPropertyModel.create(queryData);
           if (regProperty) {
             return res.json({
               success: true,
-              msg: "Property Registration Sucessfull",
+            msg: "Property Registration Sucessfull",
             });
             // const updatedUser = await userModel.findByIdAndUpdate(email, {
             //   propertyStatus: status,

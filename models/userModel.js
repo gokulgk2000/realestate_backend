@@ -23,7 +23,7 @@ const userSchema = mongoose.Schema({
         default: false,
         required: true,
       },
-      propertyPic: {
+      profilePic: {
         type: String,
        
       },
@@ -41,9 +41,7 @@ const userSchema = mongoose.Schema({
         type: Date,
         default: Date.now(),
       },
-      propertyStatus: {
-        type: String,
-      },
+    
       lastModified: {
         type: Date,
         default: Date.now(),
