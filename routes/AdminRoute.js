@@ -9,6 +9,7 @@ const { isAuthenticated } = require("../helpers/safeRoutes");
 const AdminModel = require("../models/AdminModel");
 const RegPropertyModel = require("../models/RegPropertyModel");
 const userModel = require("../models/userModel");
+const BuyerModel = require("../models/BuyerModel");
 
 const router = express.Router();
 router.post("/adminLogin", async (req, res) => {
@@ -166,7 +167,7 @@ router.put("/removeUser", async (req, res) => {
     );
     console.log(propertyRes);
   }
-});
+}); 
 
 router.put("/addUser", async (req, res) => {
   const { userID } = req.body;
@@ -187,7 +188,8 @@ router.put("/addUser", async (req, res) => {
     );
     console.log(propertyRes);
   }
-});
+}); 
+
 
 router.put("/removeProperty", async (req, res) => {
   const { PropertyID } = req.body;

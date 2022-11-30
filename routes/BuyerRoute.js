@@ -110,18 +110,40 @@ router.post("/login", async (req, res) => {
     }
   });
 });
-router.post("/getUserById", async (req, res) => {
+
+router.get("/allBuyerList", async (req, res) => {
+  BuyerModel.find((err, list) => {
+    if (err) {
+      res.json({
+        msg: err,
+      });
+    } else {
+      res.json({
+        success: true,
+        users: list,
+      });
+    }
+  });
+});
+
+router.post("/getBuyerById", async (req, res) => {
   try {
     const { userId } = req.body;
-    BuyerModel.findById(userId, async (err, User) => {
+    BuyerModel.findOne({_id:userId})
+    .populate({
+      path: "propertyId",
+      select: "layoutName location Seller landArea",
+    })
+    .exec((err, Buyer) => {
       if (err) {
+    console.log(err)
         return res.json({
           msg: err,
         });
-      } else if (User) {
+      } else if (Buyer) {
         return res.json({
           success: true,
-          User,
+          Buyer,
         });
       } else {
         return res.json({
@@ -130,88 +152,10 @@ router.post("/getUserById", async (req, res) => {
       }
     });
   } catch (err) {
+    console.log(err)
     return res.json({
       msg: err,
     });
   }
 });
-
-
-
- router.put("/adminedit", async (req, res) => {
-  const { id, landArea, location ,  
-    layoutName,
-    facing,
-    approachRoad,
-    builtArea,
-    bedRoom,
-    floorDetails,
-    status,
-    nearTown,
-    costSq,
-    facilities,
-    askPrice,
-    propertyPic,
-    Description,} = req.body;
-  const queryData = {
-    location: location,
-    layoutName:layoutName,
-    landArea: landArea,
-    facing: facing,
-    approachRoad:approachRoad,
-    builtArea: builtArea,
-    bedRoom:bedRoom,
-    floorDetails: floorDetails,
-    status: status,
-    nearTown:nearTown,
-    costSq: costSq,
-    facilities:facilities,
-    askPrice: askPrice,
-    propertyPic: propertyPic,
-    Description:Description,
-  };
-
-  RegPropertyModel.findByIdAndUpdate({ _id: id }, queryData, (err, user) => {
-    if (err) {
-      return res.json({
-        msg: err,
-      });
-    } else if (user) {
-      RegPropertyModel.findOne({ _id: id }, (err, isUser) => {
-        if (err) {
-          return res.json({
-            msg: "Error Occured",
-            error: err,
-          });
-        } else if (!isUser) {
-          return res.json({
-            msg: "User not Found",
-          });
-        } else {
-          return res.json({
-            success: true,
-            userID: isUser._id,
-            landArea: isUser.landArea,
-            location: isUser.location,
-            layoutName,
-    facing:isUser.facing,
-    approachRoad:isUser.approachRoad,
-    builtArea:isUser.builtArea,
-    bedRoom:isUser.bedRoom,
-    floorDetails:isUser.floorDetails,
-    status:isUser.status,
-    nearTown:isUser.nearTown,
-    costSq: isUser.costSq,
-    facilities:isUser.facilities,
-    askPrice: isUser.askPrice,
-    propertyPic: isUser.propertyPic,
-    Description: isUser.Description,
-           
-          });
-        }
-      });
-    }
-  });
-});
-
 module.exports = router;

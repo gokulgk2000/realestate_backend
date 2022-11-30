@@ -36,6 +36,8 @@ const userSchema = mongoose.Schema({
       },
       status: {
         type: String,
+    default:"pending"
+
       },
       date: {
         type: Date,
