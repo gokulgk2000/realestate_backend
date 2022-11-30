@@ -17,6 +17,11 @@ const userSchema = mongoose.Schema({
         type: String,
         required: true,
       },
+      phoneno: {
+        type: Number,
+        required: true,
+      },
+      
     
       verified: {
         type: Boolean,
@@ -36,7 +41,7 @@ const userSchema = mongoose.Schema({
       },
       status: {
         type: String,
-    default:"pending"
+       default:"approved"
 
       },
       date: {
