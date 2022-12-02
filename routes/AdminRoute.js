@@ -274,7 +274,7 @@ router.post("/getAllUsersPage", async (req, res) => {
 
 router.put("/adminedit", async (req, res) => {
   const {
-    id,
+    _id,
     Seller,
     landArea,
     location,
@@ -292,6 +292,8 @@ router.put("/adminedit", async (req, res) => {
     propertyPic,
     Description,
   } = req.body;
+
+
   const queryData = {
     Seller: Seller,
     location: location,
@@ -310,13 +312,13 @@ router.put("/adminedit", async (req, res) => {
     propertyPic: propertyPic,
     Description: Description,
   };
-  RegPropertyModel.findByIdAndUpdate({ _id: id }, queryData, (err, user) => {
+  RegPropertyModel.findByIdAndUpdate({ _id }, queryData, (err, user) => {
     if (err) {
       return res.json({
         msg: err,
       });
     } else if (user) {
-      RegPropertyModel.findOne({ _id: id }, (err, isUser) => {
+      RegPropertyModel.findOne({ _id }, (err, isUser) => {
         if (err) {
           return res.json({
             msg: "Error Occured",
