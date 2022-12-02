@@ -257,13 +257,15 @@ router.put("/profileEdit", async (req, res) => {
       userID,
       firstname,
       lastname,
-      phoneno
+      phoneno,
+      profilepic
       
     } = req.body;
     const queryData = {
       firstname: firstname,
       lastname: lastname,
-      phoneno:phoneno
+      phoneno:phoneno,
+      profilepic:profilepic
       // profilePic: profilePic,
     };
    
