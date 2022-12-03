@@ -19,7 +19,7 @@ const userSchema = mongoose.Schema({
       },
       phoneno: {
         type: Number,
-        required: true,
+       
       },
       
     
