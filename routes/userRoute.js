@@ -8,11 +8,11 @@ const { JWTtokenGenerator } = require("../helpers/Token");
 const { isAuthenticated } = require("../helpers/SafeRoutes");
 const config = require("../config");
 const RegPropertyModel = require("../models/RegPropertyModel");
-
+router.use("/api/user", (req, res) => res.sendFile(path.join(__dirname, "./routes/userRoute")));
 router.get("/", (req, res) => res.send("User Route"));
 
 router.post("/register", async (req, res) => {
-  const { firstname, lastname, email, password,profilePic } = req.body;
+  const { firstname, lastname, email, password, } = req.body;
   // console.log(req.body, "req.body");
   if (!password) {
     return res.json({
@@ -44,7 +44,7 @@ router.post("/register", async (req, res) => {
         email: email,
         password: hashPassword,
         aflag: true,
-        profilePic:[]
+        
       };
       userModel.create(queryData, async (err, user) => {
         if (err) {

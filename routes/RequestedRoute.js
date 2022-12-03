@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get("/", (req, res) => res.send("Requested Route"));
 
-router.post("/Requested", async (req, res) => {
+router.post("/requested", async (req, res) => {
     try{
         const{
             regUser,
