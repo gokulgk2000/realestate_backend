@@ -8,7 +8,7 @@ const { JWTtokenGenerator } = require("../helpers/Token");
 const { isAuthenticated } = require("../helpers/SafeRoutes");
 const config = require("../config");
 const RegPropertyModel = require("../models/RegPropertyModel");
-router.use("/api/user", (req, res) => res.sendFile(path.join(__dirname, "./routes/userRoute")));
+// router.use("/api/user", (req, res) => res.sendFile(path.join(__dirname, "./routes/userRoute")));
 router.get("/", (req, res) => res.send("User Route"));
 
 router.post("/register", async (req, res) => {
