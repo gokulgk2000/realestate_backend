@@ -47,8 +47,16 @@ router.post("/requested", async (req, res) => {
       }
       });
 
-      router.get("/requested", async (req, res) => {
-        RequestedModels.find({}, null, { limit: 100 }, (err, list) => {
+      router.get("/getAllrequested", async (req, res) => {
+        RequestedModels.find({})
+          .populate([
+            {
+              path: "regUser",
+              select: "firstname lastname",
+            },
+          ])
+          // null, { limit: 100 }
+          .exec((err, list) => {
     if (err) {
       res.json({
         msg: err,

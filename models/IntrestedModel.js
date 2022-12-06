@@ -5,29 +5,10 @@ const requestedSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "usermodels",
       },
-    facing: {
-        type: String,
-        
+      propertyId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "RegPropertymodels",
       },
-      location: {
-        type: String,
-      
-      },
-      nearTown: {
-        type: String,
-        
-      },
-      askPrice: {
-        type: String,
-       
-      },
-     
-      verified: {
-        type: Boolean,
-        default: false,
-        
-      },
-     
       aflag: {
         type: Boolean,
       },
@@ -46,4 +27,4 @@ const requestedSchema = mongoose.Schema({
         default: Date.now(),
       },
     });
-module.exports = mongoose.model("requestedmodels", requestedSchema);
+module.exports = mongoose.model("intrestedmodels", requestedSchema);
