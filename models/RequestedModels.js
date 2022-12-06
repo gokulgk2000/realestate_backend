@@ -1,47 +1,39 @@
 const mongoose = require("mongoose");
 
-const userSchema = mongoose.Schema({
-    firstname: {
-        type: String,
-        required: true,
+const requestedSchema = mongoose.Schema({
+    regUser: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "usermodels",
       },
-      lastname: {
+    facing: {
         type: String,
-        required: true,
+        
       },
-      email: {
+      location: {
         type: String,
-        required: true,
+      
       },
-      password: {
+      nearTown: {
         type: String,
-        required: true,
+        
       },
-      phoneno: {
-        type: Number,
+      askPrice: {
+        type: String,
        
       },
-      
-    
+     
       verified: {
         type: Boolean,
         default: false,
-        required: true,
+        
       },
-      profilePic: {
-        type: String,
-       
-      },
-    
-    
-      
-      
+     
       aflag: {
         type: Boolean,
       },
       status: {
         type: String,
-       default:"approved"
+       default:"pending"
 
       },
       date: {
@@ -54,4 +46,4 @@ const userSchema = mongoose.Schema({
         default: Date.now(),
       },
     });
-module.exports = mongoose.model("usermodels", userSchema);
+module.exports = mongoose.model("requestedmodels", requestedSchema);

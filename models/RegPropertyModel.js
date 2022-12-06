@@ -16,6 +16,9 @@ const regpropertySchema =mongoose.Schema({
   location: {
     type: String,
   },
+  streetName: {
+    type: String,
+  },
   layoutName: {
     type: String,
   },
