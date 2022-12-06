@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "netlify-lambda build express",
+    "build": "netlify-lambda --openssl-legacy-provider build express",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },

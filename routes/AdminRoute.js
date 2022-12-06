@@ -1,11 +1,11 @@
 const express = require("express");
 // const { reject } = require("lodash");
 const jwt = require("jsonwebtoken");
-const { hashGenerator } = require("../helpers/Hashing");
+// const { hashGenerator } = require("../helpers/Hashing");
 const { hashValidator } = require("../helpers/Hashing");
 const { JWTtokenGenerator } = require("../helpers/token");
 //const ActiveSessionModel = require("../models/activeSession");
-const { isAuthenticated } = require("../helpers/safeRoutes");
+// const { isAuthenticated } = require("../helpers/safeRoutes");
 const AdminModel = require("../models/AdminModel");
 const RegPropertyModel = require("../models/RegPropertyModel");
 const userModel = require("../models/userModel");
