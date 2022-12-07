@@ -1,7 +1,7 @@
 const express = require("express");
 // const { reject } = require("lodash");
 const jwt = require("jsonwebtoken");
-// const { hashGenerator } = require("../helpers/Hashing");
+const { hashGenerator } = require("../helpers/Hashing");
 const { hashValidator } = require("../helpers/Hashing");
 const { JWTtokenGenerator } = require("../helpers/token");
 //const ActiveSessionModel = require("../models/activeSession");
@@ -12,6 +12,61 @@ const userModel = require("../models/userModel");
 const BuyerModel = require("../models/BuyerModel");
 
 const router = express.Router();
+
+router.post("/adminRegister", async (req, res) => {
+  const { firstname, lastname, username, password } = req.body;
+  // console.log(req.body, "req.body");
+  if (!password) {
+    return res.json({
+      msg: "Password Empty",
+    });
+  }
+  AdminModel.findOne({ username: username }, async (err, isAdmin) => {
+    if (err) {
+      return res.json({
+        msg: "Admin Registeration failed",
+        error: err,
+      });
+    } else if (isAdmin) {
+      if (!isAdmin.aflag) {
+        return res.json({
+          msg: "This account has been deactivated",
+        });
+      } else {
+        console.log("Already Exist");
+
+        return res.json({
+          msg: "username Already Exist",
+        });
+      }
+    } else {
+      console.log("AdminRegister");
+      const hashPassword = await hashGenerator(password);
+      const queryData = {
+        firstname: firstname,
+        lastname: lastname,
+        username: username,
+        password: hashPassword,
+        aflag: true,
+      };
+      AdminModel.create(queryData, async (err, admin) => {
+        if (err) {
+          return res.json({
+            msg: "Admin Registeration failed",
+            error: err,
+          });
+        } else {
+          return res.json({
+            success: true,
+            msg: "Admin Registration Sucessfull ",
+            adminID: admin,
+          });
+        }
+      });
+    }
+  });
+});
+
 router.post("/adminLogin", async (req, res) => {
   const { username, password } = req.body;
 

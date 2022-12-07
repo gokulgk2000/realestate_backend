@@ -49,8 +49,8 @@ const router = express.Router();
     app.use("/api/requested", require("../routes/RequestedRoute"));
     app.use("/api/intrested", require("../routes/IntrestedRoute"));
 
-    app.use('/.netlify/functions/server', router);  // path must route to lambda
-    app.use('/', (req, res) => res.sendFile(path.join(__dirname, '../index.html')));
+    // app.use('/.netlify/functions/server', router);  // path must route to lambda
+    // app.use('/', (req, res) => res.sendFile(path.join(__dirname, '../index.html')));
 
 
     module.exports = app;
