@@ -364,7 +364,7 @@ router.put("/adminedit", async (req, res) => {
     costSq: costSq,
     facilities: facilities,
     askPrice: askPrice,
-    propertyPic: propertyPic,
+    propertyPic: propertyPic, 
     Description: Description,
   };
   RegPropertyModel.findByIdAndUpdate({ _id }, queryData, (err, user) => {
@@ -386,7 +386,7 @@ router.put("/adminedit", async (req, res) => {
         } else {
           return res.json({
             success: true,
-            userID: isUser._id,
+            propertyID: isUser._id,
             seller: isUser.Seller,
             landArea: isUser.landArea,
             location: isUser.location,
