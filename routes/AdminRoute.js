@@ -251,6 +251,19 @@ router.put("/addProperty", async (req, res) => {
   }
 });
 
+router.put("/deleteImage", async (req, res) => {
+  const { PropertyID,propertyPic } = req.body;
+  const deletedImage= await RegPropertyModel.findByIdAndUpdate(PropertyID, {
+    propertyPic,
+    aflag: false,
+    lastModified: Date.now(),
+  });
+  if (!deletedImage) {
+    res.status(404);
+  } else {
+    res.json({ success: true, deletedImage });
+  }
+});
 
 router.put("/removeUser", async (req, res) => {
   const { userID } = req.body;

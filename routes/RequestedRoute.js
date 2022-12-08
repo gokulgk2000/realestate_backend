@@ -75,11 +75,10 @@ router.post("/getrequestedByUserId", async (req, res) => {
       const { userID } = req.body;
      
       RequestedModels.find({ regUser: userID })
-        // .populate({
-        //   path: "regUser",
-        //   select:
-        //     "location  layoutName Seller landArea facing approachRoad builtArea bedRoom floorDetails status nearTown costSq facilities askPrice propertyPic",
-        // })
+        .populate({
+          path: "regUser",
+          select:"firstname lastname",
+        })
         .exec((err, isRequested) => {
           if (err) {
             return res.json({

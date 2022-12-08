@@ -58,6 +58,8 @@ const regpropertySchema =mongoose.Schema({
   propertyPic: [
     {
       type: String,
+      aflag:Boolean,
+      default:true,
     },
   ],
 
