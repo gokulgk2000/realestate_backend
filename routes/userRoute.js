@@ -258,14 +258,16 @@ router.put("/profileEdit", async (req, res) => {
       firstname,
       lastname,
       phoneno,
-      profilePic
+      profilePic,
+      password
       
     } = req.body;
     const queryData = {
       firstname: firstname,
       lastname: lastname,
       phoneno:phoneno,
-      profilePic:profilePic
+      profilePic:profilePic,
+      password: password
       // profilePic: profilePic,
     };
    
@@ -305,5 +307,29 @@ router.put("/profileEdit", async (req, res) => {
     return res.json({ msg: err });
   }
 });
+router.put("/changepassword", async (req,res) => {
 
+  const {userID,password} =req.body;
+  
+  const user = await userModel.findOne({_id:userID});
+  console.log("user",user)
+  if(user){
+    const newPassword = await  hashGenerator(password);
+    const userData =await userModel.findByIdAndUpdate({_id: userID},{$set:{
+      password:newPassword
+    }})
+    res.status(200).send({        
+        success: true,
+        userID: user._id,
+        firstname: user.firstname,
+        lastname: user.lastname,
+        email: user.email,
+        profilePic: user.profilePic,
+        msg:"password changed successfully"
+      });      
+  }else{
+    res.status(200).send({success:false,msg:"user does not "});
+  }
+
+})
 module.exports = router;

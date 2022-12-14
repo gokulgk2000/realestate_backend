@@ -18,6 +18,7 @@
     "mongoose": "^6.7.2",
     "netlify-lambda": "^2.0.15",
     "nodemon": "^2.0.20",
-    "serverless-http": "^3.1.0"
+    "serverless-http": "^3.1.0",
+    "stripe": "^11.3.0"
   }
 }
