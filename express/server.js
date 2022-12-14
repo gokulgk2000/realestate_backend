@@ -1,11 +1,10 @@
-'use strict';
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-const serverless = require('serverless-http');
+// const serverless = require('serverless-http');
 const config = require('../config');
 const cors = require("cors");
-const router = express.Router();
+// const router = express.Router();
 
     const app=express();
     //DB connection
@@ -56,5 +55,5 @@ const router = express.Router();
 
 
     module.exports = app;
-    module.exports.handler = serverless(app);
+    // module.exports.handler = serverless(app);
 
