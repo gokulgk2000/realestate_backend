@@ -42,11 +42,11 @@ const cors = require("cors");
     app.get('/',(req,res)=> res.send("Welcome to Backend"))
     app.use("/api/user", require("../routes/userRoute"));
     app.use("/api/property", require("../routes/RegpropertyRoute"));
-    app.use("/api/admin", require("../routes/AdminRoute"));
+    // app.use("/api/admin", require("../routes/AdminRoute"));
     app.use("/api/category", require("../routes/CategoryRoute"));
     // app.use("/api/buyer", require("../routes/BuyerRoute"));
     app.use("/api/requested", require("../routes/RequestedRoute"));
-    // app.use("/api/intrested", require("../routes/IntrestedRoute"));
+    app.use("/api/intrested", require("../routes/IntrestedRoute"));
     // app.use("/api/feedback", require("../routes/FeedbackRoute"));
     // app.use("/api/payment", require("../routes/PaymentRoute"));
     

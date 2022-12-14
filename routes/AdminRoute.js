@@ -120,13 +120,6 @@ router.post("/adminLogin", async (req, res) => {
     }
   });
 });
-router.get("/logout", async (req, res) => {
-  res.cookie("jwt", "", {
-    httpOnly: true,
-    maxAge: 1,
-  });
-  return res.json({ success: true });
-});
 
 router.post("/getUserById", async (req, res) => {
   try {
