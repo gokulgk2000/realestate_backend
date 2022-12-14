@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const config = require("../config");
+const BuyerModel = require("../models/BuyerModel");
 const IntrestedModel = require("../models/IntrestedModel");
 
 router.get("/", (req, res) => res.send("category route"));
@@ -50,10 +51,10 @@ router.get("/allIntrestedList", async (req, res) => {
     });
   });
 
-  router.post("/getIntrestedByUserId", async (req, res) => {
+  router.post("/getIntrestedByBuyerId", async (req, res) => {
     try {
-      const { userId } = req.body;
-      IntrestedModel.find({regUser:userId})
+      const { userID } = req.body;
+      BuyerModel.find({regUser:userID})
       .populate({
         path: "propertyId",
         select: "layoutName location Seller landArea",
@@ -71,7 +72,7 @@ router.get("/allIntrestedList", async (req, res) => {
           });
         } else {
           return res.json({
-            msg: `No User Found With Id ${userId}`,
+            msg: `No buyer Found With Id ${userID}`,
           });
         }
       });

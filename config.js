@@ -1,6 +1,5 @@
 const config={
-    MONGO_URL: "mongodb://0.0.0.0:27017/CovaiRealEstate",
-    JWT_SECRET: "dev",
+    MONGO_URL: "mongodb://0.0.0.0:27017/CovaiRealEstate",    JWT_SECRET: "dev",
     PORT: 8000,
     // MAIL_SERVICE: "gmail",
 
