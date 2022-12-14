@@ -372,7 +372,7 @@ router.put("/adminedit", async (req, res) => {
     builtArea: builtArea,
     bedRoom: bedRoom,
     floorDetails: floorDetails,
-    status: status,
+    status: "pending",
     nearTown: nearTown,
     costSq: costSq,
     facilities: facilities,
@@ -386,8 +386,9 @@ router.put("/adminedit", async (req, res) => {
         msg: err,
       });
     } else if (user) {
-      RegPropertyModel.findOne({ _id }, (err, isUser) => {
-        if (err) {
+      RegPropertyModel.findOne({ _id }, (err, isUser ,  
+         ) => {
+   if (err) {
           return res.json({
             msg: "Error Occured",
             error: err,
@@ -416,7 +417,8 @@ router.put("/adminedit", async (req, res) => {
             askPrice: isUser.askPrice,
             propertyPic: isUser.propertyPic,
             Description: isUser.Description,
-          });
+          },
+          );
         }
       });
     }
