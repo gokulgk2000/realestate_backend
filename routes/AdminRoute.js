@@ -1,11 +1,7 @@
 const express = require("express");
-// const { reject } = require("lodash");
-const jwt = require("jsonwebtoken");
 const { hashGenerator } = require("../helpers/Hashing");
 const { hashValidator } = require("../helpers/Hashing");
-// const { JWTtokenGenerator } = require("../helpers/token");
-//const ActiveSessionModel = require("../models/activeSession");
-// const { isAuthenticated } = require("../helpers/safeRoutes");
+const { JWTtokenGenerator } = require("../helpers/Token");
 const AdminModel = require("../models/AdminModel");
 const RegPropertyModel = require("../models/RegPropertyModel");
 const userModel = require("../models/userModel");
@@ -88,10 +84,10 @@ router.post("/adminLogin", async (req, res) => {
       const result = await hashValidator(password, isAdmin.password);
       if (result) {
         console.log(result, "result");
-        // const jwtToken = await JWTtokenGenerator({
-        //   id: isAdmin._id,
-        //   expire: "30d",
-        // });
+        const jwtToken = await JWTtokenGenerator({
+          id: isAdmin._id,
+          expire: "30d",
+        });
         const query = {
           adminId: isAdmin._id,
           firstname: isAdmin.firstname,
