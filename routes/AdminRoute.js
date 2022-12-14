@@ -3,7 +3,7 @@ const express = require("express");
 const jwt = require("jsonwebtoken");
 const { hashGenerator } = require("../helpers/Hashing");
 const { hashValidator } = require("../helpers/Hashing");
-const { JWTtokenGenerator } = require("../helpers/token");
+// const { JWTtokenGenerator } = require("../helpers/token");
 //const ActiveSessionModel = require("../models/activeSession");
 // const { isAuthenticated } = require("../helpers/safeRoutes");
 const AdminModel = require("../models/AdminModel");
@@ -88,10 +88,10 @@ router.post("/adminLogin", async (req, res) => {
       const result = await hashValidator(password, isAdmin.password);
       if (result) {
         console.log(result, "result");
-        const jwtToken = await JWTtokenGenerator({
-          id: isAdmin._id,
-          expire: "30d",
-        });
+        // const jwtToken = await JWTtokenGenerator({
+        //   id: isAdmin._id,
+        //   expire: "30d",
+        // });
         const query = {
           adminId: isAdmin._id,
           firstname: isAdmin.firstname,
