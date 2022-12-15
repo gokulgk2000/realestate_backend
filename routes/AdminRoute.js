@@ -6,6 +6,7 @@ const AdminModel = require("../models/AdminModel");
 const RegPropertyModel = require("../models/RegPropertyModel");
 const userModel = require("../models/userModel");
 const BuyerModel = require("../models/BuyerModel");
+const formatBytes=require("../helpers/resSize")
 
 const router = express.Router();
 
@@ -190,8 +191,9 @@ router.get("/allPropertiesList", async (req, res) => {
       res.json({
         msg: err,
       });
-    } else {
-      res.json({
+    } else  if (list){
+    // console.log(formatBytes(res))
+    return  res.json({
         success: true,
         properties: list,
       });
