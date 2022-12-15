@@ -104,12 +104,12 @@ router.post("/login", async (req, res) => {
           msg: "login successfull",
           success: true,
           userID: isUser._id,
-          // firstname: isUser.firstname,
-          // lastname: isUser.lastname,
-          // email: isUser.email,
-          // token: "JWT " + jwtToken,
-          // propertyStatus: isUser.propertyStatus,
-          // propertyPic: isUser.propertyPic,
+          firstname: isUser.firstname,
+          lastname: isUser.lastname,
+          email: isUser.email,
+          token: "JWT " + jwtToken,
+          propertyStatus: isUser.propertyStatus,
+          propertyPic: isUser.propertyPic,
         });
         //   }
         // });
