@@ -1,5 +1,5 @@
 const config={
-    MONGO_URL: "mongodb+srv://krishnakumar:krishna123456.@cluster0.c05tjkl.mongodb.net/test?retryWrites=true&w=majority",    
+    MONGO_URL: "mongodb+srv://krishna:krishna123456.@cluster0.koja7jx.mongodb.net/test?retryWrites=true&w=majority",    
     JWT_SECRET: "dev",
     PORT: 8000,
     SENDER_MAIL: "dspadmanaban2000@gmail.com",
