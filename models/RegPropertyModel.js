@@ -56,11 +56,7 @@ const regpropertySchema =mongoose.Schema({
     type: String,
   },
   propertyPic: [
-    {
-      type: String,
-      aflag:Boolean,
-      default:true,
-    },
+    
   ],
 
   isPropertyPic: { type: Boolean, default: true },
