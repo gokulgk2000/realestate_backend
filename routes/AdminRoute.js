@@ -398,7 +398,9 @@ router.put("/adminedit", async (req, res) => {
         } else {
           return res.json({
             success: true,
+            msg:"Property Updated Sucessfull",
             propertyID: isUser._id,
+            title:isUser.title,
             seller: isUser.Seller,
             landArea: isUser.landArea,
             location: isUser.location,

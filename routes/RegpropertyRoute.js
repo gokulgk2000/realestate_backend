@@ -15,6 +15,7 @@ router.post("/Sellproperty", async (req, res) => {
         regUser,
         category,
         Seller,
+        Title,
         location,
         streetName,
         layoutName,
@@ -42,6 +43,7 @@ router.post("/Sellproperty", async (req, res) => {
         const queryData = {
           regUser,
           category:category,
+          Title:Title,
           Seller:Seller,
           location:location,
           streetName:streetName,

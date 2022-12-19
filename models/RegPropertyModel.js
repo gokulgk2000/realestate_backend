@@ -12,6 +12,9 @@ const regpropertySchema =mongoose.Schema({
   Seller: {
     type: String,
   },
+  Title: {
+    type: String,
+  },
 
   location: {
     type: String,
