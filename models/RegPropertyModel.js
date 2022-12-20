@@ -12,7 +12,7 @@ const regpropertySchema =mongoose.Schema({
   Seller: {
     type: String,
   },
-  Title: {
+  title: {
     type: String,
   },
 
