@@ -342,6 +342,7 @@ router.put("/adminedit", async (req, res) => {
   const {
     _id,
     Seller,
+    title,
     landArea,
     location,
     layoutName,
@@ -362,6 +363,8 @@ router.put("/adminedit", async (req, res) => {
 
   const queryData = {
     Seller: Seller,
+    title: title,
+    landArea: landArea,
     location: location,
     layoutName: layoutName,
     landArea: landArea,
