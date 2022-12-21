@@ -147,7 +147,12 @@ router.post("/getUserById", async (req, res) => {
 router.post("/getPropertyDetailsById", async (req, res) => {
   try {
     const { propertyId } = req.body;
-    RegPropertyModel.findById(propertyId, async (err, Property) => {
+    RegPropertyModel.findOne({category:propertyId})
+    .populate({
+      path:"category",
+      select:"name",
+    })
+    .exec ((err, Property) => {
       if (err) {
         return res.json({
           msg: err,
@@ -342,6 +347,8 @@ router.put("/adminedit", async (req, res) => {
   const {
     _id,
     Seller,
+    category,
+    propertyStatus,
     title,
     landArea,
     location,
@@ -364,6 +371,8 @@ router.put("/adminedit", async (req, res) => {
   const queryData = {
     Seller: Seller,
     title: title,
+    category: category,
+    propertyStatus: propertyStatus,
     landArea: landArea,
     location: location,
     layoutName: layoutName,
@@ -404,6 +413,8 @@ router.put("/adminedit", async (req, res) => {
             msg:"Property Updated Sucessfull",
             propertyID: isUser._id,
             title:isUser.title,
+            category:isUser.category,
+            propertyStatus:isUser.propertyStatus,
             seller: isUser.Seller,
             landArea: isUser.landArea,
             location: isUser.location,
