@@ -10,11 +10,11 @@ const calculateOrderAmount = (items) => {
   // Replace this constant with a calculation of the order's amount
   // Calculate the order total on the server to prevent
   // people from directly manipulating the amount on the client
-  return 30000;
+  return 10000;
 };
 
 router.post("/create-payment-intent", async (req, res) => {
-  const { items,user} = req.body;
+  const { items,user,email} = req.body;
 
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
@@ -26,6 +26,8 @@ router.post("/create-payment-intent", async (req, res) => {
     customer:"cus_My1rkckxbFrHve",
      metadata:{
       user:user,
+      email:email
+    
      },
       description: "Paying in INR",
   });
