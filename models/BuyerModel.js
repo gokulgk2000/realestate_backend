@@ -1,13 +1,10 @@
 const mongoose = require("mongoose");
 const buyerSchema = mongoose.Schema({
-  firstname: {
+  name: {
     type: String,
     
   },
-  lastname: {
-    type: String,
-   
-  },
+ 
   email: {
     type: String,
     

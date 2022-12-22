@@ -1,26 +1,32 @@
 const mongoose = require("mongoose");
 
 const requestedSchema = mongoose.Schema({
-    regUser: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "usermodels",
-      },
-    facing: {
+   
+      location: {
         type: String,
         
       },
-      location: {
+      propertyType: {
         type: String,
       
       },
-      nearTown: {
+      facing: {
         type: String,
         
       },
-      askPrice: {
+      landArea: {
         type: String,
        
       },
+      buildArea: {
+        type: String,
+       
+      },
+      expectedPrice: {
+        type: String,
+       
+      },
+      
      
       verified: {
         type: Boolean,

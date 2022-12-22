@@ -10,14 +10,13 @@ router.get("/", (req, res) => res.send("Buyer Route"));
 
 
 router.post("/buyerregister", async (req, res) => {
-  const { firstname, lastname, email,phonenumber,propertyId } = req.body;
+  const { name,email,phonenumber,propertyId } = req.body;
   console.log(req.body, "req.body");
  
   
       console.log("Register");
       const queryData = {
-        firstname: firstname,
-        lastname: lastname,
+        name: name,
         email: email,
         propertyId:propertyId,
         phonenumber:phonenumber,
