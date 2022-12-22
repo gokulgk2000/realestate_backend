@@ -12,6 +12,9 @@ const regpropertySchema =mongoose.Schema({
   Seller: {
     type: String,
   },
+  yourName: {
+    type: String,
+  },
   title: {
     type: String,
   },
@@ -40,22 +43,31 @@ const regpropertySchema =mongoose.Schema({
   bedRoom: {
     type: String,
   },
+  bathRoom: {
+    type: String,
+  },
+  floor: {
+    type: String,
+  },
   floorDetails: {
     type: String,
   },
   propertyStatus: {
     type: String,
   },
-  nearTown: {
+  nearFacilities: {
     type: String,
   },
   costSq: {
     type: String,
   },
-  facilities: {
+  facilities: [
+
+  ],
+  bargainPrice: {
     type: String,
   },
-  askPrice: {
+  negotiablePrice: {
     type: String,
   },
   propertyPic: [
