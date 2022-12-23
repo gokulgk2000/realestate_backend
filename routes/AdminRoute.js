@@ -147,12 +147,12 @@ router.post("/getUserById", async (req, res) => {
 router.post("/getPropertyDetailsById", async (req, res) => {
   try {
     const { propertyId } = req.body;
-    RegPropertyModel.findOne({category:propertyId})
-    .populate({
-      path:"category",
-      select:"name",
-    })
-    .exec ((err, Property) => {
+    RegPropertyModel.findById(propertyId, async (err, Property) => { 
+    //      .populate({
+    //   path:"category",
+    //   select:"name",
+    // })
+
       if (err) {
         return res.json({
           msg: err,
