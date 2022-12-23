@@ -6,13 +6,13 @@ const transporter = nodemailer.createTransport({
   port: 465,               // true for 465, false for other ports
   host: "smtp.gmail.com",
      auth: {
-          user: 'dspadmanaban2000@gmail.com',
-          pass: 'broooqkakgexwhiz',
+          user: 'realestatecbe7901@gmail.com',
+          pass: 'nnielhzdtqxpuydr',
        },
   secure: true,
   });
   const mailData = {
-    from: 'dspadmanaban2000@gmail.com',  // sender address
+    from: 'realestatecbe7901@gmail.com',  // sender address
       to: 'krishnakumars59809@gmail.com',   // list of receivers
       subject: 'Seller has Register the Property',
       text: 'You have a New Property!',

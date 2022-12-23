@@ -93,6 +93,10 @@ const regpropertySchema =mongoose.Schema({
   isBlock:{
    type:Boolean,
    default:false
+  },
+  isPremium:{
+   type:Boolean,
+   default:false
   }
 });
 module.exports = mongoose.model("RegPropertymodels", regpropertySchema);

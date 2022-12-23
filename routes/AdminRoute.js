@@ -310,6 +310,23 @@ router.put("/addUser", async (req, res) => {
   }
 }); 
 
+router.post("/topProperty", async (req, res) => {
+  let property= {aflag: true,isPremium: true}
+   RegPropertyModel.find(property,(err,pro)=>{
+    if(err){
+      res.err(404);
+    } else {
+      return res.json({
+        success: true,
+        pro,
+      });
+    }
+  });
+  //  console.log(removeuser)
+
+ 
+}); 
+
 
 router.put("/removeProperty", async (req, res) => {
   const { PropertyID } = req.body;
@@ -438,5 +455,6 @@ router.put("/adminedit", async (req, res) => {
     }
   });
 });
+
 
 module.exports = router;
