@@ -3,6 +3,7 @@ const router = express.Router();
 const config = require("../config");
 const userModel = require("../models/userModel");
 const RegPropertyModel = require("../models/RegPropertyModel");
+const { sendMail } = require("../helpers/sendMail");
 
 
 
@@ -81,6 +82,7 @@ router.post("/Sellproperty", async (req, res) => {
         } else {
           const regProperty = await RegPropertyModel.create(queryData);
           if (regProperty) {
+           await sendMail()
             return res.json({
               success: true,
             msg: "Property Registration Sucessfull",
