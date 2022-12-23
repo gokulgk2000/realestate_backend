@@ -191,6 +191,7 @@ router.get("/allUsersList", async (req, res) => {
 });
 
 router.get("/allPropertiesList", async (req, res) => {
+  console.log("Getting Property list.......")
   RegPropertyModel.find((err, list) => {
     if (err) {
       res.json({
@@ -309,6 +310,19 @@ router.put("/addUser", async (req, res) => {
     console.log(propertyRes);
   }
 }); 
+
+router.put ("/updateTopProperty",async(req,res) => {
+  const {propertyID,isPremium}=req.body
+  const topProperty=await RegPropertyModel.findByIdAndUpdate(propertyID,{isPremium},{new:true})
+  console.log("Update property .....",propertyID,isPremium)
+  if(topProperty){
+    res.json({ success: true, topProperty })
+
+  }else{
+    res.status(404);
+
+  }
+})
 
 router.post("/topProperty", async (req, res) => {
   let property= {aflag: true,isPremium: true}
