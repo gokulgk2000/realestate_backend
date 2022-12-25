@@ -147,12 +147,12 @@ router.post("/getUserById", async (req, res) => {
 router.post("/getPropertyDetailsById", async (req, res) => {
   try {
     const { propertyId } = req.body;
-    RegPropertyModel.findOne({category:propertyId})
-    .populate({
-      path:"category",
-      select:"name",
-    })
-    .exec ((err, Property) => {
+    RegPropertyModel.findById(propertyId, async (err, Property) => { 
+    //      .populate({
+    //   path:"category",
+    //   select:"name",
+    // })
+
       if (err) {
         return res.json({
           msg: err,
@@ -191,6 +191,7 @@ router.get("/allUsersList", async (req, res) => {
 });
 
 router.get("/allPropertiesList", async (req, res) => {
+  console.log("Getting Property list.......")
   RegPropertyModel.find((err, list) => {
     if (err) {
       res.json({
@@ -310,6 +311,19 @@ router.put("/addUser", async (req, res) => {
   }
 }); 
 
+router.put ("/updateTopProperty",async(req,res) => {
+  const {propertyID,isPremium}=req.body
+  const topProperty=await RegPropertyModel.findByIdAndUpdate(propertyID,{isPremium},{new:true})
+  console.log("Update property .....",propertyID,isPremium)
+  if(topProperty){
+    res.json({ success: true, topProperty })
+
+  }else{
+    res.status(404);
+
+  }
+})
+
 router.post("/topProperty", async (req, res) => {
   let property= {aflag: true,isPremium: true}
    RegPropertyModel.find(property,(err,pro)=>{
@@ -364,22 +378,27 @@ router.put("/adminedit", async (req, res) => {
   const {
     _id,
     Seller,
+    yourName,
     category,
     propertyStatus,
     title,
     landArea,
+    streetName,
     location,
     layoutName,
     facing,
     approachRoad,
     builtArea,
     bedRoom,
+    bathRoom,
+    floor,
     floorDetails,
+    nearFacilities,
     status,
-    nearTown,
     costSq,
     facilities,
-    askPrice,
+    bargainPrice,
+    negotiablePrice,
     propertyPic,
     Description,
   } = req.body;
@@ -387,23 +406,29 @@ router.put("/adminedit", async (req, res) => {
 
   const queryData = {
     Seller: Seller,
+    yourName: yourName,
     title: title,
     category: category,
     propertyStatus: propertyStatus,
     landArea: landArea,
     location: location,
     layoutName: layoutName,
+    streetName: streetName,
     landArea: landArea,
     facing: facing,
     approachRoad: approachRoad,
     builtArea: builtArea,
     bedRoom: bedRoom,
+    bathRoom: bathRoom,
+    floor: floor,
     floorDetails: floorDetails,
     status: "pending",
-    nearTown: nearTown,
+ 
     costSq: costSq,
     facilities: facilities,
-    askPrice: askPrice,
+    nearFacilities: nearFacilities,
+    bargainPrice: bargainPrice,
+    negotiablePrice: negotiablePrice,
     propertyPic: propertyPic, 
     Description: Description,
   };
@@ -433,19 +458,25 @@ router.put("/adminedit", async (req, res) => {
             category:isUser.category,
             propertyStatus:isUser.propertyStatus,
             seller: isUser.Seller,
+            yourName: isUser.yourName,
             landArea: isUser.landArea,
+            streetName: isUser.streetName,
             location: isUser.location,
             layoutName,
             facing: isUser.facing,
             approachRoad: isUser.approachRoad,
             builtArea: isUser.builtArea,
             bedRoom: isUser.bedRoom,
+            bathRoom: isUser.bathRoom,
             floorDetails: isUser.floorDetails,
+            floor: isUser.floor,
             status: isUser.status,
-            nearTown: isUser.nearTown,
             costSq: isUser.costSq,
+            propertyStatus: isUser.propertyStatus,
+            nearFacilities: isUser.nearFacilities,
             facilities: isUser.facilities,
-            askPrice: isUser.askPrice,
+            bargainPrice: isUser.bargainPrice,
+            negotiablePrice: isUser.negotiablePrice,
             propertyPic: isUser.propertyPic,
             Description: isUser.Description,
           },
