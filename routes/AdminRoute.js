@@ -313,7 +313,7 @@ router.put("/addUser", async (req, res) => {
 
 router.put ("/updateTopProperty",async(req,res) => {
   const {propertyID,isPremium}=req.body
-  const topProperty=await RegPropertyModel.findByIdAndUpdate(propertyID,{isPremium},{new:true})
+  const topProperty=await RegPropertyModel.findByIdAndUpdate(propertyID,{isPremium},{new:true},);
   console.log("Update property .....",propertyID,isPremium)
   if(topProperty){
     res.json({ success: true, topProperty })
@@ -378,6 +378,8 @@ router.put("/adminedit", async (req, res) => {
   const {
     _id,
     Seller,
+    transactionType,
+    phone,
     yourName,
     category,
     propertyStatus,
@@ -407,6 +409,8 @@ router.put("/adminedit", async (req, res) => {
   const queryData = {
     Seller: Seller,
     yourName: yourName,
+    transactionType: transactionType,
+    phone: phone,
     title: title,
     category: category,
     propertyStatus: propertyStatus,
@@ -455,6 +459,8 @@ router.put("/adminedit", async (req, res) => {
             msg:"Property Updated Sucessfull",
             propertyID: isUser._id,
             title:isUser.title,
+            phone:isUser.phone,
+            transectionType:isUser.transectionType,
             category:isUser.category,
             propertyStatus:isUser.propertyStatus,
             seller: isUser.Seller,

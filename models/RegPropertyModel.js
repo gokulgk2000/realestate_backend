@@ -12,6 +12,12 @@ const regpropertySchema =mongoose.Schema({
   Seller: {
     type: String,
   },
+  phone: {
+    type: String,
+  },
+  transactionType: {
+    type: String,
+  },
   yourName: {
     type: String,
   },
