@@ -325,7 +325,7 @@ router.put ("/updateTopProperty",async(req,res) => {
 })
 
 router.post("/topProperty", async (req, res) => {
-  let property= {aflag: true,isPremium: true}
+  let property= {aflag:true,isPremium: true}
    RegPropertyModel.find(property,(err,pro)=>{
     if(err){
       res.err(404);
@@ -460,7 +460,7 @@ router.put("/adminedit", async (req, res) => {
             propertyID: isUser._id,
             title:isUser.title,
             phone:isUser.phone,
-            transectionType:isUser.transectionType,
+            transactionType:isUser.transactionType,
             category:isUser.category,
             propertyStatus:isUser.propertyStatus,
             seller: isUser.Seller,
