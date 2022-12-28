@@ -8,11 +8,14 @@ const { JWTtokenGenerator } = require("../helpers/Token");
 const { isAuthenticated } = require("../helpers/SafeRoutes");
 const config = require("../config");
 const RegPropertyModel = require("../models/RegPropertyModel");
+const OtpModel = require("../models/OtpModel");
+const { sendMail } = require("../helpers/sendMail");
+const BuyerModel = require("../models/BuyerModel");
 // router.use("/api/user", (req, res) => res.sendFile(path.join(__dirname, "./routes/userRoute")));
 router.get("/", (req, res) => res.send("User Route"));
 
 router.post("/register", async (req, res) => {
-  const { firstname, lastname, email, password,profilePic} = req.body;
+  const { firstname, lastname, email, password,role, profilePic,phonenumber } = req.body;
   // console.log(req.body, "req.body");
   if (!password) {
     return res.json({
@@ -43,8 +46,10 @@ router.post("/register", async (req, res) => {
         lastname: lastname,
         email: email,
         password: hashPassword,
+        phonenumber:phonenumber,
+        role:role,
         aflag: true,
-        profilePic:profilePic
+        profilePic: profilePic,
       };
       userModel.create(queryData, async (err, user) => {
         if (err) {
@@ -259,29 +264,23 @@ router.put("/profileEdit", async (req, res) => {
       lastname,
       phoneno,
       profilePic,
-      password
-      
+      password,
     } = req.body;
     const queryData = {
       firstname: firstname,
       lastname: lastname,
-      phoneno:phoneno,
-      profilePic:profilePic,
-      password: password
+      phoneno: phoneno,
+      profilePic: profilePic,
+      password: password,
       // profilePic: profilePic,
     };
-   
 
-    userModel.findByIdAndUpdate(userID,queryData,()=> {
-
-   
+    userModel.findByIdAndUpdate(userID, queryData, () => {
       return res.json({
-        
-         success: true, 
-        //  msg:updated, 
-        queryData
-       })
-
+        success: true,
+        //  msg:updated,
+        queryData,
+      });
 
       // if (err) {
       //   return res.json({
@@ -292,14 +291,13 @@ router.put("/profileEdit", async (req, res) => {
       //   return res.json({
       //     msg: "User not Found",
       //   });
-      // } 
+      // }
       // else {
-      
+
       //     userID: user._id,
       //     firstname: user.firstname,
       //     lastname: user.lastname,
-        
-         
+
       // ;
       // }
     });
@@ -307,29 +305,112 @@ router.put("/profileEdit", async (req, res) => {
     return res.json({ msg: err });
   }
 });
-router.put("/changepassword", async (req,res) => {
+router.put("/changepassword", async (req, res) => {
+  const { userID, password } = req.body;
 
-  const {userID,password} =req.body;
-  
-  const user = await userModel.findOne({_id:userID});
-  console.log("user",user)
-  if(user){
-    const newPassword = await  hashGenerator(password);
-    const userData =await userModel.findByIdAndUpdate({_id: userID},{$set:{
-      password:newPassword
-    }})
-    res.status(200).send({        
-        success: true,
-        userID: user._id,
-        firstname: user.firstname,
-        lastname: user.lastname,
-        email: user.email,
-        profilePic: user.profilePic,
-        msg:"password changed successfully"
-      });      
-  }else{
-    res.status(200).send({success:false,msg:"user does not "});
+  const user = await userModel.findOne({ _id: userID });
+  console.log("user", user);
+  if (user) {
+    const newPassword = await hashGenerator(password);
+    const userData = await userModel.findByIdAndUpdate(
+      { _id: userID },
+      {
+        $set: {
+          password: newPassword,
+        },
+      }
+    );
+    res.status(200).send({
+      success: true,
+      userID: user._id,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+      profilePic: user.profilePic,
+      msg: "password changed successfully",
+    });
+  } else {
+    res.status(200).send({ success: false, msg: "user does not " });
   }
+});
+router.post("/forgotpassword", async (req, res) => {
+  const data = await userModel.findOne({ email: req.body.email });
+  
+  const responseType = {};
+  if (data) {
+    
+    const otpcode = Math.floor(Math.random() * 10000 + 1);
+    const otpData = new OtpModel({
+      email: req.body.email,
+      code: otpcode,
+      expireIn: new Date().getTime() + 300 * 1000,
+    });
 
-})
+    let otpResponse = await otpData.save();
+    responseType.statusText = "success";
+    responseType.message = "please check your Email Id";
+  } else {
+    responseType.statusText = "error";
+    responseType.message = "Email not found";
+  }
+  res.status(200).json(responseType);
+});
+router.put("/resetpassword", async (req, res) => {
+  const {email,code} = req.body;
+  const  data = await OtpModel.find({
+    email:req.body. email,
+    code: code,
+  });
+  const response = {};
+  if (email||code) {
+    const currentTime = new Date().getTime();
+    const diff = data.expireIn - currentTime;
+    if (diff > 0) {
+      response.message = "Token Expire";
+      response.statusText = "error";
+    } else {
+     
+      const newPassword = await hashGenerator(req.body.password)
+      const  userData = await userModel.findOneAndUpdate({ email: req.body.email  },{$set:{password: newPassword}});
+    
+      response.message = "Password Changed Successfully";
+      response.statusText = "success";
+    }
+  } else {
+    response.message = "Invalid Otp";
+    response.statusText = "error";
+  }
+  res.status(200).send({
+   
+    response
+  });
+  console.log(data,"data");
+});
+// const nodemailer = new require("nodemailer");
+// const mailer = async (email, otp) => {
+  
+//   const transporter = nodemailer.createTransport({
+//     port: 465, // true for 465, false for other ports
+//     host: "smtp.gmail.com",
+//     auth: {
+//       user: "dspadmanaban2000@gmail.com",
+//       pass: "broooqkakgexwhiz",
+//     },
+//     secure: true,
+//   });
+//   const mailOptions = {
+//     from: "dspadmanaban2000@gmail.com",
+//     to: "gokulkrishnan0149@gmail.com",
+//     subject: "Sending  Email using node js",
+//     text: "ThankYou",
+//   };
+//   transporter.sendMail(mailOptions, function (error, Info) {
+//     if (error) {
+//       console.log(error);
+//     } else {
+//       console.log("Email sent" + Info.response);
+//     }
+//   });
+// };
+
 module.exports = router;
