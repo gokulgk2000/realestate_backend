@@ -28,8 +28,8 @@ const { GridFsStorage } = require("multer-gridfs-storage");
     );
     app.use(
       cors({
-        // origin: "http://localhost:3000",
-        origin: true,
+        origin: "http://localhost:3000",
+        // origin: true,
         credentials: true,
         exposedHeaders: ["set-cookie"],
       })

@@ -18,6 +18,9 @@ const regpropertySchema =mongoose.Schema({
   transactionType: {
     type: String,
   },
+  aboutProperty: {
+    type: String,
+  },
   yourName: {
     type: String,
   },
