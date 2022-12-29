@@ -45,23 +45,16 @@ router.post("/getPropertiescategoryId", async (req, res) => {
   try {
     const { id, searchText = "", bedRoom } = req.body;
     let regex = new RegExp(searchText, "i");
-
     let categoryQuery = {
       isBlock: "false",
       status: "approved",
-      
     };
     if (bedRoom){ {categoryQuery.bedRoom = { $gte:bedRoom };} 
-
-    
-
   }
     if (searchText !== null && searchText !== undefined)
       categoryQuery.$or = [
+        { title: regex },
         { location: regex },
-        
-      
-    
       ];
     if (id) categoryQuery.category = id;
     console.log(categoryQuery);
