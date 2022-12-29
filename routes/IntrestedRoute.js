@@ -99,19 +99,7 @@ router.get("/allIntrestedList", async (req, res) => {
         path: "regUser",
         select: "firstname email ",
       })
-      .exec((err, Intrested) => {
-        if (err) {
-      console.log(err)
-          return res.json({
-            msg: err,
-          });
-        } else if (Intrested) {
-          return res.json({
-            success: true,
-            Intrested,
-          });
-        } 
-      });
+    
     } catch (err) {
       console.log(err)
       return res.json({
@@ -120,6 +108,68 @@ router.get("/allIntrestedList", async (req, res) => {
     }
   });
 
+  router.post("/createInterest", async (req, res) => {
+    try{
+      const { regUser, propertyId } = req.body;
+      const queryData = {
+        regUser:regUser,
+        propertyId:propertyId,
+        aflag: true,
+        
+      };
+      IntrestedModel.create(queryData, async (err, intrested) =>{
+        if(err) {
+          return res.json({
+          msg: " ",
+          error: err,
+        });
+
+        }else if(intrested) {
+          return res.json({
+            success: true,
+            intrested
+          })
+        }
+      })
+    }catch(err){
+      console.log(err)
+      return res.json({
+        msg: err,
+      })
+    }
+  });
+  router.post("/getinterested", async (req, res) => {
+ try{
+  const {userID} = req.body;
+  IntrestedModel.find({regUser:userID})
+ 
+  .populate(
+   {
+    path: "propertyId",
+    select: " category Seller phone yourName title  location  streetName layoutName landArea facing approachRoad   builtArea  bedRoom bathRoom floorDetails floor propertyStatus aboutProperty status  nearFacilities costSq facilities  bargainPrice negotiablePrice propertyPic Description"
+   }
+)
+
+   .exec((err, isIntrested) => {
+        if (err) {
+      console.log(err)
+          return res.json({
+            msg: err,
+          });
+        } else  {
+          return res.json({
+            success: true,
+            Intrested:isIntrested,
+          });
+       
+          
+        }
+      });
+ }catch{
+
+ }
+   
+  })
 
 
 

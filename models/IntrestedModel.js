@@ -12,11 +12,11 @@ const requestedSchema = mongoose.Schema({
       aflag: {
         type: Boolean,
       },
-      status: {
-        type: String,
-       default:"pending"
+      // status: {
+      //   type: String,
+      //  default:"pending"
 
-      },
+      // },
       date: {
         type: Date,
         default: Date.now(),
