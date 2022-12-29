@@ -3,10 +3,11 @@ const router = express.Router();
 const config = require("../config");
 const BuyerModel = require("../models/BuyerModel");
 const IntrestedModel = require("../models/IntrestedModel");
+const RegPropertyModel = require("../models/RegPropertyModel");
 
 router.get("/", (req, res) => res.send("category route"));
 
-router.post("/getPropertyIntrested", async (req, res) =>{
+router.post("/createIntrestedProperty", async (req, res) =>{
     const { regUser ,propertyId} = req.body
     const queryData = {
         regUser:regUser,
@@ -14,18 +15,25 @@ router.post("/getPropertyIntrested", async (req, res) =>{
         aflag: true,
       };
 IntrestedModel.create(queryData, async (err, intrested) =>{
-
    if(err){
     return res.json({
     msg: " ",
     error: err,
 })
-   }else {
+   }else if(intrested) {
+    RegPropertyModel.findById(propertyId,(err, intrested),null,
+    {populate:{path:"regUser",select:"firstname _id "}})
+      if(err){
+        return res.json({
+        msg: " ",
+        error: err,
+    })}else{
     return res.json({
       success: true,
       msg: "Property Add on your intrested",
       intrested
     });
+  }
   }})
 });
 
@@ -75,6 +83,34 @@ router.get("/allIntrestedList", async (req, res) => {
             msg: `No buyer Found With Id ${userID}`,
           });
         }
+      });
+    } catch (err) {
+      console.log(err)
+      return res.json({
+        msg: err,
+      });
+    }
+  });
+  router.post("/IntrestedByPropertyId", async (req, res) => {
+    try {
+      const { propertyId } = req.body;
+      IntrestedModel.findOne({propertyId})
+      .populate({
+        path: "regUser",
+        select: "firstname email ",
+      })
+      .exec((err, Intrested) => {
+        if (err) {
+      console.log(err)
+          return res.json({
+            msg: err,
+          });
+        } else if (Intrested) {
+          return res.json({
+            success: true,
+            Intrested,
+          });
+        } 
       });
     } catch (err) {
       console.log(err)

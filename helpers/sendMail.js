@@ -11,17 +11,9 @@ const transporter = nodemailer.createTransport({
        },
   secure: true,
   });
-  const mailData = {
-    from: 'realestatecbe7901@gmail.com',  // sender address
-      to: 'krishnakumars59809@gmail.com',   // list of receivers
-      subject: 'Seller has Register the Property',
-      text: 'You have a New Property!',
-      html: '<b>Property Has Registered</b> <br> please Verify the Property <br/>',
-    };
-   console.log("initiating") 
-    const sendMail=async ()=>{
+    const sendMail=async (mailOptions)=>{
 try {
-    const sentMail = await transporter.sendMail(mailData)
+    const sentMail = await transporter.sendMail(mailOptions)
     console.log("Mail sent successfully",sentMail)
 } catch (error) {
   console.log("Mail error: " , error)  

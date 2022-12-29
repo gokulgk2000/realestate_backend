@@ -11,9 +11,6 @@ router.get("/", (req, res) => res.send("Buyer Route"));
 
 router.post("/buyerregister", async (req, res) => {
   const { name,email,phonenumber,propertyId } = req.body;
-  console.log(req.body, "req.body");
- 
-  
       console.log("Register");
       const queryData = {
         name: name,
@@ -22,7 +19,7 @@ router.post("/buyerregister", async (req, res) => {
         phonenumber:phonenumber,
         aflag: true,
       };
-      BuyerModel.create(queryData, async (err, user) => {
+      BuyerModel.create({queryData}, async (err, user) => {
         if (err) {
           return res.json({
             msg: "Buyer Registeration failed",
