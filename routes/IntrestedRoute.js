@@ -12,6 +12,7 @@ router.post("/createIntrestedProperty", async (req, res) =>{
     const queryData = {
         regUser:regUser,
         propertyId,
+       
         aflag: true,
       };
 IntrestedModel.create(queryData, async (err, intrested) =>{
@@ -114,7 +115,9 @@ router.get("/allIntrestedList", async (req, res) => {
       const queryData = {
         regUser:regUser,
         propertyId:propertyId,
+        status:"approved",
         aflag: true,
+        isBlock: true,
         
       };
       IntrestedModel.create(queryData, async (err, intrested) =>{
@@ -141,7 +144,7 @@ router.get("/allIntrestedList", async (req, res) => {
   router.post("/getinterested", async (req, res) => {
  try{
   const {userID} = req.body;
-  IntrestedModel.find({regUser:userID})
+  IntrestedModel.find({regUser:userID,aflag:true})
  
   .populate(
    {
@@ -165,11 +168,29 @@ router.get("/allIntrestedList", async (req, res) => {
           
         }
       });
- }catch{
-
+ }catch(err){
+  return res.json({
+    msg: err,
+  })
  }
    
-  })
+  });
+
+  router.put("/removeInterest", async (req, res) => {
+    const {userID } = req.body;
+    const removeProperty = await IntrestedModel.findByIdAndUpdate(userID,{
+      aflag: false,
+      status: "rejected",
+      lastModified: Date.now(),
+    });
+    
+    if (!removeProperty) {
+      res.status(404);
+    } else {
+      res.json({ success: true, removeProperty });
+    }
+    console.log(removeProperty)
+  });
 
 
 
