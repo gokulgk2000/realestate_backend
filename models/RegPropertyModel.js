@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const regpropertySchema =mongoose.Schema({
   regUser: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "userModel",
+    ref: "usermodels",
   },
   category:{
     type: mongoose.Schema.Types.ObjectId,

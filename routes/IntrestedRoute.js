@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const config = require("../config");
+const { sendMail } = require("../helpers/sendMail");
 const BuyerModel = require("../models/BuyerModel");
 const IntrestedModel = require("../models/IntrestedModel");
 const RegPropertyModel = require("../models/RegPropertyModel");
@@ -115,11 +116,10 @@ router.get("/allIntrestedList", async (req, res) => {
       const queryData = {
         regUser:regUser,
         propertyId:propertyId,
-        status:"approved",
         aflag: true,
-        isBlock: true,
         
       };
+      // console.log("queryData :",queryData)
       IntrestedModel.create(queryData, async (err, intrested) =>{
         if(err) {
           return res.json({
@@ -127,14 +127,26 @@ router.get("/allIntrestedList", async (req, res) => {
           error: err,
         });
 
-        }else if(intrested) {
-          return res.json({
-            success: true,
-            intrested
-          })
         }
-      })
-    }catch(err){
+        else if(intrested) 
+      
+        {
+          const property= await RegPropertyModel.findById(propertyId,null,{populate:{path:"regUser",select:"firstname lastname email "}})
+ 
+          const mailOptions = {
+            to: property?.regUser?.email,
+            subject: "Your Property was Intrested  by ",
+            html: `<div><h3> Hello ${property?.regUser?.firstname}  ${property?.regUser?.lastname},</h3><p>You have a New Intrested for Your Property</p>`,
+          }; 
+          const mailResult = await sendMail(mailOptions);
+          console.log("Mail response", mailResult);
+          return res.json({
+            msg: " ",
+            data: intrested,
+          })
+
+        }})
+      }catch(err){
       console.log(err)
       return res.json({
         msg: err,
