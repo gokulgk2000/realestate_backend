@@ -142,7 +142,7 @@ router.get("/allIntrestedList", async (req, res) => {
           console.log("Mail response", mailResult);
           return res.json({
             msg: " ",
-            data: intrested,
+           intrested
           })
 
         }})
