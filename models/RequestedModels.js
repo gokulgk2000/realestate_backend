@@ -1,7 +1,10 @@
 const mongoose = require("mongoose");
 
 const requestedSchema = mongoose.Schema({
-   
+  regUser: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "usermodels",
+  },
       location: {
         type: String,
         

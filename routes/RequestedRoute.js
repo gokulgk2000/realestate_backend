@@ -7,10 +7,11 @@ router.get("/", (req, res) => res.send("Requested Route"));
 
 
 router.post("/requested", async (req, res) => {
-  const { location, propertyType, facing, landArea, buildArea, expectedPrice } =
+  const { regUser,location, propertyType, facing, landArea, buildArea, expectedPrice } =
     req.body;
 
   const queryData = {
+    regUser: regUser,
     location: location,
     facing: facing,
     propertyType: propertyType,
@@ -40,7 +41,7 @@ router.get("/getAllrequested", async (req, res) => {
     .populate([
       {
         path: "regUser",
-        select: "firstname lastname",
+        select: "firstname lastname email",
       },
     ])
     // null, { limit: 100 }
