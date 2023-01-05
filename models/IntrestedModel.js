@@ -12,6 +12,10 @@ const requestedSchema = mongoose.Schema({
       aflag: {
         type: Boolean,
       },
+      isInterested: {
+        type:Boolean,
+        default:false
+      },
       status: {
         type: String,
        default:"pending"

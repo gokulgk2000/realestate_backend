@@ -106,6 +106,10 @@ const regpropertySchema =mongoose.Schema({
   isPremium:{
    type:Boolean,
    default:false
-  }
+  },
+  isInterest:{
+    type:Boolean,
+    default:false
+   },
 });
 module.exports = mongoose.model("RegPropertymodels", regpropertySchema);
