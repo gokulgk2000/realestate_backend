@@ -36,7 +36,7 @@ router.post("/register", async (req, res) => {
       } else {
         return res.json({
           msg: "Email Already Exist",
-        });
+        });       
       }
     } else {
       console.log("Register");
