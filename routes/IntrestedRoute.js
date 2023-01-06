@@ -120,7 +120,7 @@ router.post("/createInterest", async (req, res) => {
       propertyId: propertyId,
       
     };
-    // console.log("queryData :",queryData)
+    console.log("queryData :",queryData)
     IntrestedModel.create(queryData, async (err, intrested) => {
       if (err) {
         return res.json({
@@ -160,7 +160,7 @@ router.post("/getinterested", async (req, res) => {
       .populate({
         path: "propertyId",
         select:
-          " category Seller phone yourName title  location  streetName layoutName landArea facing approachRoad isPremium isBlock  builtArea  bedRoom bathRoom floorDetails floor propertyStatus aboutProperty status  nearFacilities costSq facilities  bargainPrice negotiablePrice propertyPic Description",
+          " category Seller phone yourName title  location  streetName layoutName landArea facing approachRoad isInterest  isPremium isBlock  builtArea  bedRoom bathRoom floorDetails floor propertyStatus aboutProperty status  nearFacilities costSq facilities  bargainPrice negotiablePrice propertyPic Description",
       })
 
       .exec((err, isIntrested) => {
