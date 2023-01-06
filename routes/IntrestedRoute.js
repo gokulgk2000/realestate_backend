@@ -155,7 +155,7 @@ router.post("/createInterest", async (req, res) => {
 router.post("/getinterested", async (req, res) => {
   try {
     const { userID } = req.body;
-    IntrestedModel.find({ regUser: userID,isInterested: true })
+    IntrestedModel.find({ regUser: userID, isInterested:true, })
 
       .populate({
         path: "propertyId",
@@ -184,8 +184,8 @@ router.post("/getinterested", async (req, res) => {
 });
 
 router.put("/removeInterest", async (req, res) => {
-  const { userID } = req.body;
-  const removeProperty = await IntrestedModel.findOneAndDelete(userID, {
+  const { interestPropertyID } = req.body;
+  const removeProperty = await IntrestedModel.findOneAndDelete({_id:interestPropertyID}, {
     isInterested:false,
     status: "rejected",
     lastModified: Date.now(),
