@@ -112,6 +112,7 @@ router.post("/login", async (req, res) => {
           firstname: isUser.firstname,
           lastname: isUser.lastname,
           email: isUser.email,
+          role:isUser.role,
           token: "JWT " + jwtToken,
           propertyStatus: isUser.propertyStatus,
           propertyPic: isUser.propertyPic,
@@ -254,7 +255,20 @@ router.get("/properties", async (req, res) => {
     }
   });
 });
-
+router.get("/getfacilator",async (req, res) => {
+  userModel.find({role:"facilator"}, (err, facilatorslist) => {
+    if(err){
+        res.json({
+          msg:"err"
+        })
+    }else{
+      return res.json({
+        success: true,
+        facilatorslist
+      })
+    }
+  })
+})
 router.put("/profileEdit", async (req, res) => {
   try {
     const {
@@ -356,13 +370,13 @@ router.post("/forgotpassword", async (req, res) => {
   res.status(200).json(responseType);
 });
 router.put("/resetpassword", async (req, res) => {
-  const {email,code} = req.body;
+ 
   const  data = await OtpModel.find({
     email:req.body. email,
     code: code,
   });
   const response = {};
-  if (email||code) {
+  if (data) {
     const currentTime = new Date().getTime();
     const diff = data.expireIn - currentTime;
     if (diff > 0) {

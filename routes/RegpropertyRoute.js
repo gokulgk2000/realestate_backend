@@ -41,6 +41,7 @@ router.post("/Sellproperty", async (req, res) => {
         negotiablePrice,
         propertyPic,
         Description,
+        order,
         
       } = req.body;
       //Finding user from DB collection using unique userID
@@ -77,7 +78,7 @@ router.post("/Sellproperty", async (req, res) => {
           negotiablePrice:negotiablePrice,
           propertyPic: propertyPic,
           Description: Description,
-         
+          order:order,
           aflag: true,
         };
         const isAlreadyRegistered = await RegPropertyModel.find({
@@ -249,4 +250,19 @@ router.post("/Sellproperty", async (req, res) => {
         });
       }
     });
+    
+router.get("/allPromotorsList", async (req, res) => {
+  userModel.find({role:"promotors"},(err, list) => {
+    if (err) {
+      res.json({
+        msg: err,
+      });
+    } else {
+      res.json({
+        success: true,
+        promotors: list,
+      });
+    }
+  });
+});
   module.exports = router;

@@ -111,5 +111,8 @@ const regpropertySchema =mongoose.Schema({
     type:Boolean,
     default:false
    },
+   order:{
+    type:Number
+   }
 });
 module.exports = mongoose.model("RegPropertymodels", regpropertySchema);

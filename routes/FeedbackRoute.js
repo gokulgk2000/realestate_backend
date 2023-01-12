@@ -8,17 +8,14 @@ const FeedbackModel = require("../models/FeedbackModel");
 router.get("/", (req, res) => res.send("Feedback Route"));
 
 router.post("/feedbackregister", async (req, res) => {
-  const { category, budgetfrom, to, area, propertyType, comment, phonenumber } =
+  const {  comment,userID } =
     req.body;
   console.log("Register");
   const queryData = {
-    category: category,
-    budgetfrom: budgetfrom,
-    to: to,
-    area: area,
-    propertyType: propertyType,
+   
     comment: comment,
-    phonenumber: phonenumber,
+  
+    userID,
     aflag: true,
   };
   FeedbackModel.create(queryData, async (err, user) => {
@@ -31,13 +28,9 @@ router.post("/feedbackregister", async (req, res) => {
       return res.json({
         success: true,
         msg: "Feedback Sent Sucessfully",
-        category: user.category,
-        budgetfrom: user.budgetfrom,
-        to: user.to,
-        area: user.area,
-        propertyType: user.propertyType,
+       
         comment: user.comment,
-        phonenumber: user.phonenumber,
+        userID:user.userID,
       });
     }
   });

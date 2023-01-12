@@ -6,7 +6,7 @@ const AdminModel = require("../models/AdminModel");
 const RegPropertyModel = require("../models/RegPropertyModel");
 const userModel = require("../models/userModel");
 const BuyerModel = require("../models/BuyerModel");
-const formatBytes=require("../helpers/resSize")
+const formatBytes = require("../helpers/resSize");
 
 const router = express.Router();
 
@@ -147,11 +147,11 @@ router.post("/getUserById", async (req, res) => {
 router.post("/getPropertyDetailsById", async (req, res) => {
   try {
     const { propertyId } = req.body;
-    RegPropertyModel.findById(propertyId, async (err, Property) => { 
-    //      .populate({
-    //   path:"category",
-    //   select:"name",
-    // })
+    RegPropertyModel.findById(propertyId, async (err, Property) => {
+      //      .populate({
+      //   path:"category",
+      //   select:"name",
+      // })
 
       if (err) {
         return res.json({
@@ -191,15 +191,15 @@ router.get("/allUsersList", async (req, res) => {
 });
 
 router.get("/allPropertiesList", async (req, res) => {
-  console.log("Getting Property list.......")
+  console.log("Getting Property list.......");
   RegPropertyModel.find((err, list) => {
     if (err) {
       res.json({
         msg: err,
       });
-    } else  if (list){
-    // console.log(formatBytes(res))
-    return  res.json({
+    } else if (list) {
+      // console.log(formatBytes(res))
+      return res.json({
         success: true,
         properties: list,
       });
@@ -207,43 +207,38 @@ router.get("/allPropertiesList", async (req, res) => {
   });
 });
 router.put("/removeBuyer", async (req, res) => {
-  const { userID} = req.body;   
+  const { userID } = req.body;
   const removeBuyer = await BuyerModel.findByIdAndUpdate(userID, {
     aflag: false,
     status: "rejected",
     lastModified: Date.now(),
-
-  }); 
-  console.log(removeBuyer)
+  });
+  console.log(removeBuyer);
 
   if (!removeBuyer) {
     res.status(404);
   } else {
-    res.json({ success: true, removeBuyer});
+    res.json({ success: true, removeBuyer });
   }
-}); 
+});
 router.put("/addBuyer", async (req, res) => {
-  const { userID} = req.body;   
+  const { userID } = req.body;
   const addBuyer = await BuyerModel.findByIdAndUpdate(userID, {
     aflag: true,
     status: "approved",
     lastModified: Date.now(),
-
-  }); 
+  });
   //  console.log(removeuser)
 
   if (!addBuyer) {
     res.status(404);
   } else {
-
-    res.json({ success: true, addBuyer});
-  
- 
+    res.json({ success: true, addBuyer });
   }
-}); 
+});
 router.put("/addProperty", async (req, res) => {
   const { PropertyID } = req.body;
-  const addProperty = await RegPropertyModel.findByIdAndUpdate(PropertyID,{
+  const addProperty = await RegPropertyModel.findByIdAndUpdate(PropertyID, {
     aflag: true,
     status: "approved",
     lastModified: Date.now(),
@@ -256,8 +251,8 @@ router.put("/addProperty", async (req, res) => {
 });
 
 router.put("/deleteImage", async (req, res) => {
-  const { PropertyID,propertyPic } = req.body;
-  const deletedImage= await RegPropertyModel.findByIdAndUpdate(PropertyID, {
+  const { PropertyID, propertyPic } = req.body;
+  const deletedImage = await RegPropertyModel.findByIdAndUpdate(PropertyID, {
     propertyPic,
     aflag: false,
     lastModified: Date.now(),
@@ -288,7 +283,7 @@ router.put("/removeUser", async (req, res) => {
     );
     console.log(propertyRes);
   }
-}); 
+});
 
 router.put("/addUser", async (req, res) => {
   const { userID } = req.body;
@@ -309,25 +304,40 @@ router.put("/addUser", async (req, res) => {
     );
     console.log(propertyRes);
   }
-}); 
+});
 
-router.put ("/updateTopProperty",async(req,res) => {
-  const {propertyID,isPremium}=req.body
-  const topProperty=await RegPropertyModel.findByIdAndUpdate(propertyID,{isPremium},{new:true},);
-  console.log("Update property .....",propertyID,isPremium)
-  if(topProperty){
-    res.json({ success: true, topProperty })
-
-  }else{
+router.put("/updateTopProperty", async (req, res) => {
+  const { propertyID, isPremium } = req.body;
+  const topProperty = await RegPropertyModel.findByIdAndUpdate(
+    propertyID,
+    { isPremium },
+    { new: true }
+  );
+  console.log("Update property .....", propertyID, isPremium);
+  if (topProperty) {
+    res.json({ success: true, topProperty });
+  } else {
     res.status(404);
-
   }
-})
+});
+router.put("/listProperty", async (req, res) => {
+  const { propertyId, order } = req.body;
+  const orderProperty = await RegPropertyModel.findByIdAndUpdate(
+    { _id: propertyId, isPremium: true },
+    { order },
+    { new: true }
+  );
+  if (orderProperty) {
+    res.json({ success: true, orderProperty });
+  } else {
+    res;
+  }
+});
 
 router.post("/topProperty", async (req, res) => {
-  let property= {aflag:true,isPremium: true}
-   RegPropertyModel.find(property,(err,pro)=>{
-    if(err){
+  let property = { aflag: true, isPremium: true };
+  RegPropertyModel.find(property, (err, pro) => {
+    if (err) {
       res.err(404);
     } else {
       return res.json({
@@ -337,10 +347,7 @@ router.post("/topProperty", async (req, res) => {
     }
   });
   //  console.log(removeuser)
-
- 
-}); 
-
+});
 
 router.put("/removeProperty", async (req, res) => {
   const { PropertyID } = req.body;
@@ -406,7 +413,6 @@ router.put("/adminedit", async (req, res) => {
     Description,
   } = req.body;
 
-
   const queryData = {
     Seller: Seller,
     yourName: yourName,
@@ -429,13 +435,13 @@ router.put("/adminedit", async (req, res) => {
     floor: floor,
     floorDetails: floorDetails,
     status: "pending",
- 
+
     costSq: costSq,
     facilities: facilities,
     nearFacilities: nearFacilities,
     bargainPrice: bargainPrice,
     negotiablePrice: negotiablePrice,
-    propertyPic: propertyPic, 
+    propertyPic: propertyPic,
     Description: Description,
   };
   RegPropertyModel.findByIdAndUpdate({ _id }, queryData, (err, user) => {
@@ -444,9 +450,8 @@ router.put("/adminedit", async (req, res) => {
         msg: err,
       });
     } else if (user) {
-      RegPropertyModel.findOne({ _id }, (err, isUser ,  
-         ) => {
-   if (err) {
+      RegPropertyModel.findOne({ _id }, (err, isUser) => {
+        if (err) {
           return res.json({
             msg: "Error Occured",
             error: err,
@@ -458,14 +463,14 @@ router.put("/adminedit", async (req, res) => {
         } else {
           return res.json({
             success: true,
-            msg:"Property Updated Sucessfull",
+            msg: "Property Updated Sucessfull",
             propertyID: isUser._id,
-            title:isUser.title,
-            phone:isUser.phone,
-            transactionType:isUser.transactionType,
-            category:isUser.category,
-            propertyStatus:isUser.propertyStatus,
-            aboutProperty:isUser.aboutProperty,
+            title: isUser.title,
+            phone: isUser.phone,
+            transactionType: isUser.transactionType,
+            category: isUser.category,
+            propertyStatus: isUser.propertyStatus,
+            aboutProperty: isUser.aboutProperty,
             seller: isUser.Seller,
             yourName: isUser.yourName,
             landArea: isUser.landArea,
@@ -488,13 +493,11 @@ router.put("/adminedit", async (req, res) => {
             negotiablePrice: isUser.negotiablePrice,
             propertyPic: isUser.propertyPic,
             Description: isUser.Description,
-          },
-          );
+          });
         }
       });
     }
   });
 });
-
 
 module.exports = router;
