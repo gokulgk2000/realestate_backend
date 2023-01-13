@@ -57,7 +57,6 @@ router.post("/getPropertiescategoryId", async (req, res) => {
         { location: regex },
       ];
     if (id) categoryQuery.category = id;
-    console.log(categoryQuery);
     RegPropertyModel.find(categoryQuery, (err, category) => {
       if (err) {
         return res.json({

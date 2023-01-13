@@ -335,7 +335,7 @@ router.put("/listProperty", async (req, res) => {
 });
 
 router.post("/topProperty", async (req, res) => {
-  let property = { aflag: true, isPremium: true };
+  let property = { aflag: true, isPremium: true,status: "approved" };
   RegPropertyModel.find(property, (err, pro) => {
     if (err) {
       res.err(404);
