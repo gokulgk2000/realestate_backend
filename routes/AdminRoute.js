@@ -7,6 +7,7 @@ const RegPropertyModel = require("../models/RegPropertyModel");
 const userModel = require("../models/userModel");
 const BuyerModel = require("../models/BuyerModel");
 const formatBytes = require("../helpers/resSize");
+const BannerModel = require("../models/BannerModel");
 
 const router = express.Router();
 
@@ -335,7 +336,7 @@ router.put("/listProperty", async (req, res) => {
 });
 
 router.post("/topProperty", async (req, res) => {
-  let property = { aflag: true, isPremium: true,status: "approved" };
+  let property = { aflag: true, isPremium: true, status: "approved" };
   RegPropertyModel.find(property, (err, pro) => {
     if (err) {
       res.err(404);
@@ -495,6 +496,74 @@ router.put("/adminedit", async (req, res) => {
             Description: isUser.Description,
           });
         }
+      });
+    }
+  });
+});
+router.post("/adproperty", async (req, res) => {
+  try {
+    const { adminID, adpic } = req.body;
+    const admin = await AdminModel.findOne({ _id: adminID });
+    if (admin) {
+      const queryData = {
+        adminID,
+        adpic: adpic,
+      };
+
+      const adproperty = await BannerModel.create(queryData);
+      if (adproperty) {
+        return res.json({
+          success: true,
+          msg: "ad upload Sucessfull",
+        });
+      }
+    } else {
+      return res.json({
+        msg: "User not Found",
+      });
+    }
+  } catch (err) {
+    return res.json({ msg: err?.name || err });
+  }
+});
+router.get("/getAdminById", async (req, res) => {
+  try {
+    const { adminID } = req.body;
+
+    AdminModel.findOne({ _id: adminID }, async (err, admin) => {
+      if (err) {
+        return res.json({
+          msg: err,
+        });
+      } else if (admin) {
+        return res.json({
+          success: true,
+          admin,
+        });
+      } else {
+        return res.json({
+          msg: `No User Found With Id ${adminID}`,
+        });
+      }
+    });
+  } catch (err) {
+    return res.json({
+      msg: err,
+    });
+  }
+});
+router.post("/getAdproperty", async (req, res) => {
+  const { adminID } = req.body;
+  console.log("adminID",req.body)
+  BannerModel.findOne({adminID }, async (err, banner) => {
+    if (err) {
+      return res.json({
+        msg: "err",
+      });
+    } else {
+      return res.json({
+        success: true,
+        banner,
       });
     }
   });
