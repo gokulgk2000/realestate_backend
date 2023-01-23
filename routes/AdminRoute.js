@@ -321,6 +321,32 @@ router.put("/updateTopProperty", async (req, res) => {
     res.status(404);
   }
 });
+router.put("/updateTopPromotors", async (req, res) => {
+  const { promotorID, isPremium } = req.body;
+  const topPromotors = await userModel.findByIdAndUpdate(
+    promotorID,
+    { isPremium },
+    { new: true }
+  );
+  if (topPromotors) {
+    res.json({ success: true, topPromotors });
+  } else {
+    res.status(404);
+  }
+});
+router.put("/updateTopFacilators", async (req, res) => {
+  const { facilatorID, isPremium } = req.body;
+  const topFacilators = await userModel.findByIdAndUpdate(
+    facilatorID,
+    { isPremium },
+    { new: true }
+  );
+  if (topFacilators) {
+    res.json({ success: true, topFacilators });
+  } else {
+    res.status(404);
+  }
+});
 router.put("/listProperty", async (req, res) => {
   const { propertyId, order } = req.body;
   const orderProperty = await RegPropertyModel.findByIdAndUpdate(
@@ -331,13 +357,66 @@ router.put("/listProperty", async (req, res) => {
   if (orderProperty) {
     res.json({ success: true, orderProperty });
   } else {
-    res;
+    res.status(404);
   }
 });
-
+router.put("/listPromotors", async (req, res) => {
+  const { promotorId, order } = req.body;
+  const orderPromotors = await userModel.findByIdAndUpdate(
+    { _id: promotorId, isPremium: true },
+    { order },
+    { new: true }
+  );
+  if (orderPromotors) {
+    res.json({ success: true, orderPromotors });
+  } else {
+    res.status(404);
+  }
+});
+router.put("/listFacilators", async (req, res) => {
+  const { facilatorId, order } = req.body;
+  const orderFacilators = await userModel.findByIdAndUpdate(
+    { _id: facilatorId, isPremium: true },
+    { order },
+    { new: true }
+  );
+  if (orderFacilators) {
+    res.json({ success: true, orderFacilators });
+  } else {
+    res.status(404);
+  }
+});
 router.post("/topProperty", async (req, res) => {
   let property = { aflag: true, isPremium: true, status: "approved" };
   RegPropertyModel.find(property, (err, pro) => {
+    if (err) {
+      res.err(404);
+    } else {
+      return res.json({
+        success: true,
+        pro,
+      });
+    }
+  });
+  //  console.log(removeuser)
+});
+router.post("/topPromotors", async (req, res) => {
+  let role = { aflag: true, isPremium: true, status: "approved" };
+  userModel.find({role:"promotors",isPremium: true}, (err, pro) => {
+    if (err) {
+      res.status(404);
+    } else {
+      return res.json({
+        success: true,
+        pro,
+      });
+    }
+  });
+  //  console.log(removeuser)
+});
+router.post("/topFacilators", async (req, res) => {
+  let role = { aflag: true, isPremium: true, status: "approved" };
+  userModel.find({role:"facilator",isPremium: true}, (err, pro) => {
     if (err) {
       res.err(404);
     } else {

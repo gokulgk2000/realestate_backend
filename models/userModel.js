@@ -25,7 +25,13 @@ const userSchema = mongoose.Schema({
       role:{
         type:String,
       },
-      
+      isPremium:{
+        type:Boolean,
+        default:false
+       },
+       order:{
+        type:Number
+       }, 
     
       verified: {
         type: Boolean,
