@@ -28,7 +28,7 @@ const { GridFsStorage } = require("multer-gridfs-storage");
     );
     app.use(
       cors({
-        // origin: "http://localhost:3000",
+        origin: "*",
         origin: true,
         credentials: true,
         exposedHeaders: ["set-cookie"],
@@ -107,7 +107,6 @@ const { GridFsStorage } = require("multer-gridfs-storage");
 
   app.get("/file/:id", ({ params: { id } }, res) => {
     if (!id || id === "undefined") return res.status(400).send("no image id");
-    console.log("id",id);
     const _id = new mongoose.Types.ObjectId(id);
     gfs.find({ _id }).toArray((err, files) => {
       if (!files || files.length === 0)
