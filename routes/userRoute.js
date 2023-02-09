@@ -276,14 +276,14 @@ router.put("/profileEdit", async (req, res) => {
       userID,
       firstname,
       lastname,
-      phoneno,
+      phonenumber,
       profilePic,
       password,
     } = req.body;
     const queryData = {
       firstname: firstname,
       lastname: lastname,
-      phoneno: phoneno,
+      phonenumber: phonenumber,
       profilePic: profilePic,
       password: password,
       // profilePic: profilePic,
@@ -325,7 +325,7 @@ router.put("/changepassword", async (req, res) => {
   const user = await userModel.findOne({ _id: userID });
   console.log("user", user);
   if (user) {
-    const newPassword = await hashGenerator(password);
+    const newPassword = await hashGeneryator(password);
     const userData = await userModel.findByIdAndUpdate(
       { _id: userID },
       {
