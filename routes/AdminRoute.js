@@ -633,7 +633,6 @@ router.get("/getAdminById", async (req, res) => {
 });
 router.post("/getAdproperty", async (req, res) => {
   const { adminID } = req.body;
-  console.log("adminID",req.body)
   BannerModel.findOne({adminID }, async (err, banner) => {
     if (err) {
       return res.json({
@@ -647,5 +646,43 @@ router.post("/getAdproperty", async (req, res) => {
     }
   });
 });
+router.put("/adpropertyEdit", async (req, res) => {
+  const {
+    adminID,
+    adpic
+  
+  } = req.body;
 
+  const queryData = {
+     adpic:adpic
+  };
+  BannerModel.findByIdAndUpdate({ adminID }, queryData, (err, user) => {
+    if (err) {
+      return res.json({
+        msg: err,
+      });
+    } else if (user) {
+      BannerModel.findOne({ adminID }, (err, isUser) => {
+        if (err) {
+          return res.json({
+            msg: "Error Occured",
+            error: err,
+          });
+        } else if (!isUser) {
+          return res.json({
+            msg: "User not Found",
+          });
+        } else {
+          return res.json({
+            success: true,
+            msg: "Property Updated Sucessfull",
+           adpic:isUser.adpic
+          
+     
+          });
+        }
+      });
+    }
+  });
+});
 module.exports = router;
