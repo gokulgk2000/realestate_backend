@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'realestateBackend'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6224E8CCB7954BE8A0011C8734CEABB2 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_A2BDDA24871949FE8DBF26178B58DCC2 }}
           package: .
