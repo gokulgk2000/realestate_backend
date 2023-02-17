@@ -6,7 +6,7 @@ name: Build and deploy Node.js app to Azure Web App - realestatecbebackend
 on:
   push:
     branches:
-      - main
+      - vidu-dev
   workflow_dispatch:
 
 jobs:
